@@ -13,9 +13,11 @@
 
 substitutions:
   name: reterminal-eink
-  # Puppet add-on screenshot endpoint for your dashboard view (800x480, e-ink).
-  # Replace host/port and the dashboard path with yours.
-  image_url: "http://homeassistant.local:10000/?url=http://homeassistant.local:8123/eink/home&viewport=800x480&eink=6color&format=png"
+  # Puppet add-on screenshot endpoint: <ha-host>:10000/<dashboard-path>?params.
+  # `colors` reduces the palette to the panel's six Spectra inks (Puppet dithers
+  # to these). Use the HA IP instead of homeassistant.local if mDNS is flaky on
+  # the ESP32. Tip: add &theme=... or kiosk-mode for a chrome-free capture.
+  image_url: "http://homeassistant.local:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,008000"
 
 esphome:
   name: ${name}

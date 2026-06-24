@@ -15,10 +15,13 @@
 substitutions:
   name: reterminal-eink
   friendly_name: reTerminal E-ink
-  # Puppet screenshot. ?device=seeed-reterminal-e1002 applies the built-in E1002
-  # preset (800x480, the panel's real-ink palette + stucki dithering) — no need
-  # to hand-specify colors/dithering. Use the HA IP if mDNS is flaky on the ESP32.
-  image_url: "http://homeassistant.local:10000/e-ink/panel?device=seeed-reterminal-e1002"
+  # Puppet screenshot. We DON'T use ?device=seeed-reterminal-e1002: that preset
+  # matches against the panel's real (muted) inks, whose green sits near mid-grey,
+  # so our deliberate greys (weather bars + icons) dither into colour noise.
+  # Instead a pure palette (green = 00FF00, far from grey) + floyd-steinberg keeps
+  # greys as clean B/W halftones while the solid-ink price bars don't dither.
+  # Use the HA IP if mDNS is flaky on the ESP32.
+  image_url: "http://homeassistant.local:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg"
 
 esphome:
   name: ${name}

@@ -74,13 +74,19 @@ Puppet screenshots your Lovelace view into an image the device can fetch.
 3. **Puppet → Configuration** → set `access_token`, and **`keep_browser_open: true`**
    (without it Chromium relaunches every render, which is slow and can hit a
    `protocolTimeout` crash) → **Save** → **Start** (enable **Watchdog** + **Start on boot**).
-4. **Verify** from any browser on your LAN (use your HA's IP). The
-   **`?device=seeed-reterminal-e1002`** preset sets the right size, the panel's
-   real-ink palette, and dithering automatically:
+4. **Verify** from any browser on your LAN (use your HA's IP):
    ```
-   http://<HA-IP>:10000/e-ink/panel?device=seeed-reterminal-e1002
+   http://<HA-IP>:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg
    ```
-   You should get a dithered 800×480 PNG.
+   You should get an 800×480 PNG: solid colour price bars, grey (B/W-dithered)
+   weather bars and icons.
+
+   > **Why not `?device=seeed-reterminal-e1002`?** That preset matches against the
+   > panel's *real, muted* inks — its green sits close to mid-grey, so the greys we
+   > use on purpose (weather bars + icons) dither into colour noise. A pure palette
+   > (green = `00FF00`, far from any grey) keeps greys as clean black/white halftones
+   > while the solid-ink price bars still render flat. Tune `dithering=` to taste
+   > (`atkinson`, `stucki`, …).
 
 ## 5. Flash the device (ESPHome)
 
@@ -93,9 +99,9 @@ Puppet screenshots your Lovelace view into an image the device can fetch.
 2. **+ New Device → (Advanced) Empty Configuration** → name `reterminal-eink` → paste
    [`device/reterminal-e1002.yaml`](device/reterminal-e1002.yaml).
 3. Set `substitutions.image_url` to use your **HA IP** (mDNS `.local` is flaky on the
-   ESP32). The `?device` preset handles size/palette/dithering:
+   ESP32) — same URL you verified in §4.4:
    ```
-   http://<HA-IP>:10000/e-ink/panel?device=seeed-reterminal-e1002
+   http://<HA-IP>:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg
    ```
    The config uses `board: seeed_xiao_esp32s3` (the E1002 is built on a XIAO
    ESP32-S3) and switches on the on-board battery/SD rails — both required.

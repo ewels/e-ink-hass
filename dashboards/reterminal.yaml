@@ -39,6 +39,7 @@ views:
                 padding: 0px !important;
               }
               forecast-temperature-bar-range {
+                background: #808080 !important; /* flat grey -> clean B/W halftone */
                 border: 1px solid black;
                 box-sizing: border-box;
               }

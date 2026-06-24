@@ -32,8 +32,8 @@ flowchart LR
 This repo provides three things:
 
 1. **Custom Lovelace cards** (`src/cards/`) — bespoke web components (price,
-   calendar, conditions, and a `panel` card that lays them out), tuned for the
-   6-ink e-paper. Installed via **HACS as a Lovelace/Dashboard plugin**.
+   weather, calendar, conditions, and a `panel` card that lays them out), tuned
+   for the 6-ink e-paper. Installed via **HACS as a Lovelace/Dashboard plugin**.
 2. **Home Assistant config** (`ha/`) — the `seconds-until-wake` template sensor
    and time-of-day automations. Copied into your HA config.
 3. **Device config** (`device/`) — ESPHome for the reTerminal: deep-sleep that
@@ -97,8 +97,9 @@ ever loading it into Home Assistant.
 
 ## Install (in Home Assistant)
 
-1. **HACS → Custom repositories** → add this repo, category **Dashboard** →
-   install. HACS serves the card JS and registers the Lovelace resource.
+1. **HACS → Custom repositories** → add `https://github.com/ewels/e-ink-hass`,
+   category **Dashboard** → install. HACS serves the card JS and registers the
+   Lovelace resource.
 2. Install the community cards the shipped dashboard uses, all via HACS:
    **`clock-weather-card`** (weather), **`card-mod`** (styles the weather to the
    monochrome e-ink look), **`calendar-card-pro`** (calendar) — plus the
@@ -120,7 +121,7 @@ Cards built and previewable in the dev harness against real HA data:
 - `eink-panel-card` — composes the slots into the fixed 800×480 layout (the
   single card the Lovelace view uses)
 
-Plus `dashboards/reterminal.yaml` (the composed Lovelace view), and the
-supporting config in `ha/` (template sensor + automations) and `device/`
-(ESPHome). Still to do: install in HA via HACS, wire the Puppet add-on, and test
-on hardware; optional time-of-day dashboard variants.
+Installed via HACS and verified rendering on a live Home Assistant instance
+(the `E-ink` dashboard → `Panel` view). Still to do: install the **Puppet**
+add-on and point it at the dashboard, flash the device, and test on hardware;
+optional time-of-day dashboard variants (additional tabs in the same dashboard).

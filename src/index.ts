@@ -1,6 +1,12 @@
 import { EinkPriceCard } from "./cards/price-chart-card.js";
+import { EinkWeatherCard } from "./cards/weather-card.js";
+import { EinkCalendarCard } from "./cards/calendar-card.js";
 
-const CARDS: Array<[string, CustomElementConstructor]> = [["eink-price-card", EinkPriceCard]];
+const CARDS: Array<[string, CustomElementConstructor]> = [
+  ["eink-price-card", EinkPriceCard],
+  ["eink-weather-card", EinkWeatherCard],
+  ["eink-calendar-card", EinkCalendarCard],
+];
 
 for (const [tag, ctor] of CARDS) {
   if (!customElements.get(tag)) customElements.define(tag, ctor);

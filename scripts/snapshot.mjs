@@ -1,5 +1,9 @@
 // Dump real Home Assistant state into dev/hass-snapshot.json so the dev harness
 // can render cards against live data. Dev-only; not used at runtime.
+//
+// Captures: entity states, the daily weather forecast (which lives behind a
+// service call, not attributes), and calendar events for the dashboard's
+// calendars — the same data the cards fetch at runtime via hass.callApi.
 import { writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -18,23 +22,24 @@ if (!base || !token) {
   process.exit(1);
 }
 
-const auth = { headers: { Authorization: `Bearer ${token}` } };
+const headers = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+const CALENDARS = [
+  "calendar.personal",
+  "calendar.family",
+  "calendar.holidays_in_sweden",
+];
 
-const states = await (await fetch(`${base}/api/states`, auth)).json();
+const states = await (await fetch(`${base}/api/states`, { headers })).json();
 const byId = Object.fromEntries(states.map((s) => [s.entity_id, s]));
 
-// Also pull the daily weather forecast (lives behind a service, not attributes).
+// Daily weather forecast (behind a service, not attributes).
 const weatherEntity = Object.keys(byId).find((id) => id.startsWith("weather."));
 let forecasts = {};
 if (weatherEntity) {
   try {
     const resp = await fetch(
       `${base}/api/services/weather/get_forecasts?return_response=true`,
-      {
-        method: "POST",
-        headers: { ...auth.headers, "Content-Type": "application/json" },
-        body: JSON.stringify({ entity_id: weatherEntity, type: "daily" }),
-      },
+      { method: "POST", headers, body: JSON.stringify({ entity_id: weatherEntity, type: "daily" }) },
     ).then((r) => r.json());
     forecasts = resp?.service_response ?? {};
   } catch {
@@ -42,6 +47,24 @@ if (weatherEntity) {
   }
 }
 
+// Calendar events for the next few days.
+const start = new Date();
+start.setHours(0, 0, 0, 0);
+const end = new Date(start.getTime() + 4 * 86400000);
+const qs = `start=${encodeURIComponent(start.toISOString())}&end=${encodeURIComponent(end.toISOString())}`;
+const calendars = {};
+for (const id of CALENDARS) {
+  try {
+    const events = await fetch(`${base}/api/calendars/${id}?${qs}`, { headers }).then((r) => r.json());
+    if (Array.isArray(events)) calendars[id] = events;
+  } catch {
+    /* skip a calendar that isn't present */
+  }
+}
+
 const out = resolve(ROOT, "dev/hass-snapshot.json");
-writeFileSync(out, JSON.stringify({ states: byId, forecasts }, null, 2));
-console.log(`Wrote ${out} (${states.length} entities)`);
+writeFileSync(out, JSON.stringify({ states: byId, forecasts, calendars }, null, 2));
+console.log(
+  `Wrote ${out} (${states.length} entities, ${Object.keys(forecasts).length} forecast, ` +
+    `${Object.values(calendars).reduce((a, e) => a + e.length, 0)} events)`,
+);

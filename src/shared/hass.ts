@@ -9,6 +9,28 @@ export interface HomeAssistant {
   states: Record<string, HassEntity>;
   /** Locale/clock info HA provides; optional here. */
   locale?: { language: string };
+  /** REST passthrough HA's frontend provides; also stubbed by the dev harness. */
+  callApi?: (method: string, path: string, parameters?: unknown) => Promise<any>;
+}
+
+/** A daily weather forecast entry (from weather.get_forecasts). */
+export interface WeatherDay {
+  date: string; // ISO datetime
+  condition: string;
+  tempHigh: number;
+  tempLow: number;
+  precipitation?: number;
+  precipProbability?: number;
+}
+
+/** A calendar event as returned by GET /api/calendars/<id>. */
+export interface CalendarEvent {
+  start: string; // ISO
+  end?: string;
+  title: string;
+  allDay: boolean;
+  location?: string;
+  color: string; // assigned from the card's calendar config
 }
 
 /** Register a card in HA's "Add card" picker. */

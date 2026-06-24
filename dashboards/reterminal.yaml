@@ -26,7 +26,9 @@ views:
           type: custom:clock-weather-card
           entity: weather.forecast_home
           forecast_rows: 4
-          # See clock-weather-card docs for more styling (weather_icon_type: line, etc.)
+          hide_clock: true # show condition + temperature, not a clock
+          hide_date: true
+          # See clock-weather-card docs for more styling (weather_icon_type, etc.)
         # Compact sensor strip filling the space between weather and price.
         conditions:
           items:

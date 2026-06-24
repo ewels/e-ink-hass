@@ -123,6 +123,16 @@ export class EinkPanelCard extends LitElement {
     :host {
       --ink: ${unsafeCSS(INK.black)};
       --paper: ${unsafeCSS(INK.white)};
+      /* Force a light theme so embedded HA-themed cards (e.g. clock-weather-card)
+         render on white regardless of the frontend theme Puppet screenshots. */
+      --ha-card-background: #ffffff;
+      --card-background-color: #ffffff;
+      --ha-card-box-shadow: none;
+      --ha-card-border-width: 0px;
+      --primary-text-color: #000000;
+      --secondary-text-color: #000000;
+      --primary-background-color: #ffffff;
+      --divider-color: #000000;
       display: block;
     }
     .panel {

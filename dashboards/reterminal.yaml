@@ -1,0 +1,40 @@
+# Lovelace view for the reTerminal E1002 e-ink panel.
+#
+# Use a DEDICATED dashboard in PANEL mode so the single eink-panel-card fills the
+# 800x480 viewport that the Puppet add-on screenshots. To install:
+#   Settings → Dashboards → Add dashboard → (open it) → ⋮ → Edit dashboard →
+#   ⋮ → Raw configuration editor → paste this file's contents.
+#
+# Then point Puppet at this dashboard's URL (e.g. /eink/home) at 800x480, and set
+# that screenshot URL as `image_url` in device/reterminal-e1002.yaml.
+#
+# Entities are confirmed against the live instance; adjust calendars/sensors to taste.
+# (calendar.important/work/family exist but are empty — the populated calendars
+# are the configured ones below.)
+
+title: E-ink
+views:
+  - title: Panel
+    path: home
+    panel: true # single card fills the viewport
+    cards:
+      - type: custom:eink-panel-card
+        weather:
+          entity: weather.forecast_home
+          days: 4
+        price:
+          entity: sensor.greenely_prices
+          title: Electricity
+          low_threshold: 50 # öre/kWh — green below
+          high_threshold: 200 # öre/kWh — red above
+          cheapest_window: 8 # quarter-hours (= 2h); 0 to hide
+        calendar:
+          title: Calendar
+          days: 3
+          entities:
+            - entity: calendar.family
+              color: "#0000ff" # blue
+            - entity: calendar.personal
+              color: "#008000" # green
+            - entity: calendar.holidays_in_sweden
+              color: "#ff0000" # red

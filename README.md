@@ -101,12 +101,15 @@ ever loading it into Home Assistant.
 
 ## Status
 
-Three custom cards built and previewable in the dev harness against real HA data:
+Cards built and previewable in the dev harness against real HA data:
 
 - `eink-price-card` — electricity price bars (öre, today + tomorrow)
 - `eink-weather-card` — current conditions + daily forecast range bars
 - `eink-calendar-card` — day-grouped agenda, colour-coded by calendar
+- `eink-panel-card` — composes the three into the fixed 800×480 layout (the
+  single card the Lovelace view uses)
 
-Plus the supporting config in `ha/` (template sensor + automations) and
-`device/` (ESPHome). Still to do: `dashboards/reterminal.yaml` (the composed
-Lovelace view) and on-hardware testing with Puppet + ESPHome.
+Plus `dashboards/reterminal.yaml` (the composed Lovelace view), and the
+supporting config in `ha/` (template sensor + automations) and `device/`
+(ESPHome). Still to do: install in HA via HACS, wire the Puppet add-on, and test
+on hardware; optional time-of-day dashboard variants.

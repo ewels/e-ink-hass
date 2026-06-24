@@ -16,41 +16,17 @@
         margin: 0 0 8px 2px;
         opacity: 0.8;
       }
-      /* The real panel: 800×480, white. */
-      .panel {
+      /* The real panel: 800×480 (the card sets its own size). */
+      .frame {
         width: 800px;
         height: 480px;
-        background: #fff;
         box-shadow: 0 0 0 1px #000;
-        display: flex;
-        overflow: hidden;
-      }
-      .left {
-        flex: 0 0 57%;
-        display: flex;
-        flex-direction: column;
-      }
-      .left eink-price-card {
-        margin-top: auto;
-      }
-      .right {
-        flex: 1 1 auto;
-        border-left: 2px solid #000;
-        overflow: hidden;
       }
     </style>
   </head>
   <body>
     <p class="label" id="src">loading…</p>
-    <div class="panel">
-      <div class="left">
-        <eink-weather-card id="weather"></eink-weather-card>
-        <eink-price-card id="price"></eink-price-card>
-      </div>
-      <div class="right">
-        <eink-calendar-card id="calendar"></eink-calendar-card>
-      </div>
-    </div>
+    <div class="frame"><eink-panel-card id="panel"></eink-panel-card></div>
 
     <script type="module">
       import "../dist/eink-dashboard-cards.js";
@@ -148,25 +124,21 @@
       const snap = await loadSnapshot();
       const hass = { states: snap.states, callApi: makeCallApi(snap) };
 
-      const weather = document.getElementById("weather");
-      weather.setConfig({ entity: "weather.forecast_home", days: 4 });
-      weather.hass = hass;
-
-      const price = document.getElementById("price");
-      price.setConfig({ entity: "sensor.greenely_prices", title: "Electricity" });
-      price.hass = hass;
-
-      const calendar = document.getElementById("calendar");
-      calendar.setConfig({
-        title: "Calendar",
-        days: 3,
-        entities: [
-          { entity: "calendar.family", color: "#0000ff" },
-          { entity: "calendar.personal", color: "#008000" },
-          { entity: "calendar.holidays_in_sweden", color: "#ff0000" },
-        ],
+      const panel = document.getElementById("panel");
+      panel.setConfig({
+        weather: { entity: "weather.forecast_home", days: 4 },
+        price: { entity: "sensor.greenely_prices", title: "Electricity" },
+        calendar: {
+          title: "Calendar",
+          days: 3,
+          entities: [
+            { entity: "calendar.family", color: "#0000ff" },
+            { entity: "calendar.personal", color: "#008000" },
+            { entity: "calendar.holidays_in_sweden", color: "#ff0000" },
+          ],
+        },
       });
-      calendar.hass = hass;
+      panel.hass = hass;
     </script>
   </body>
 </html>

@@ -1,5 +1,11 @@
-"""Sensors that turn a Schedule helper into 'current dashboard' + 'seconds to
-next dashboard change', for minimal-wake e-ink scheduling."""
+"""Sensors that turn a Schedule helper into 'current dashboard' + 'seconds to the
+next scheduled refresh', for e-ink dashboard scheduling.
+
+The device wakes at every event *start* (each is a data refresh) and shows the
+event's dashboard; it ignores block end-times, so 30-minute "switch-point" events
+work just like contiguous blocks. Reading the schedule directly (rather than the
+helper's `next_event`) lets us wake on starts only — `next_event` would also fire
+on every block *end*."""
 
 from __future__ import annotations
 
@@ -75,19 +81,15 @@ def _resolve(schedule: dict, now: datetime, default: str) -> tuple[str, int]:
         else:
             break
 
-    # Next change = the earliest future start whose dashboard differs. Skips
-    # same-dashboard adjacencies (incl. the midnight split) and gaps.
-    next_change = next(
-        (
-            start
-            for start, dashboard in starts
-            if start > now and (dashboard or default) != current
-        ),
-        None,
-    )
-    if next_change is None:
+    # Wake at the next event *start* — every scheduled event is a refresh, even
+    # if the dashboard doesn't change (the view's data — prices, weather,
+    # calendar — does). Block ends/durations are ignored; only starts wake the
+    # device, and gaps hold the last view. Don't place an event you don't want to
+    # wake for (e.g. at midnight).
+    next_start = next((start for start, _dashboard in starts if start > now), None)
+    if next_start is None:
         return current, FALLBACK_SECONDS
-    return current, max(1, int((next_change - now).total_seconds()))
+    return current, max(1, int((next_start - now).total_seconds()))
 
 
 def _read_schedule(hass: HomeAssistant, entity_id: str) -> dict | None:

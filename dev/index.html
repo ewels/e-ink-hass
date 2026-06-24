@@ -140,13 +140,6 @@
       const panel = document.getElementById("panel");
       panel.setConfig({
         weather: { entity: "weather.forecast_home", days: 4 },
-        conditions: {
-          items: [
-            { entity: "sensor.weather_station_outdoor_module_temperature", label: "Outside" },
-            { entity: "sensor.weather_station_temperature", label: "Inside" },
-            { entity: "sensor.weather_station_carbon_dioxide", label: "CO₂" },
-          ],
-        },
         price: { entity: "sensor.greenely_prices", title: "Electricity" },
         calendar: {
           title: "Calendar",

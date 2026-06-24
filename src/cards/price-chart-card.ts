@@ -276,13 +276,23 @@ export class EinkPriceCard extends LitElement {
     .bar.high {
       background: var(--high);
     }
-    /* "Now" marker: vertical line above the current bar. */
+    /* "Now" marker: a downward arrow above the current bar. */
     .now-line {
       position: absolute;
       top: 0;
       width: 0;
       border-left: 2px solid var(--ink);
       transform: translateX(-50%);
+    }
+    .now-line::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -1px;
+      transform: translateX(-50%);
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 8px solid var(--ink); /* downward-pointing arrowhead */
     }
     /* Today | tomorrow split. */
     .divider {

@@ -40,12 +40,17 @@ This repo provides three things:
    reads the template sensor to wake at exactly your chosen times.
 
 The `panel` card composes its slots via Home Assistant's card helpers, so you can
-freely mix the bundled custom cards with community ones. The shipped dashboard
-uses [`clock-weather-card`](https://github.com/pkissling/clock-weather-card) for
-the weather block (its rendering is hard to beat) alongside the custom price,
-calendar and conditions cards. A bundled `eink-weather-card` is included as an
-alternative, and [`calendar-card-pro`](https://github.com/alexpfau/calendar-card-pro)
-is a drop-in alternative for the calendar.
+freely mix bundled custom cards with community ones. The shipped dashboard uses:
+
+- **weather** — [`clock-weather-card`](https://github.com/pkissling/clock-weather-card)
+  styled to the monochrome e-ink look with [`card-mod`](https://github.com/thomasloven/lovelace-card-mod)
+  (line icons recoloured black, white range-bar tracks with solid grey fill, both bordered)
+- **price** — the bundled `eink-price-card` (no community equivalent does the öre
+  thresholds + 15-min bars)
+- **calendar** — [`calendar-card-pro`](https://github.com/alexpfau/calendar-card-pro)
+
+Bundled alternatives (`eink-weather-card`, `eink-calendar-card`, `eink-conditions-card`)
+remain available and are fully previewable in the dev harness.
 
 ## Refresh schedule
 
@@ -94,8 +99,10 @@ ever loading it into Home Assistant.
 
 1. **HACS → Custom repositories** → add this repo, category **Dashboard** →
    install. HACS serves the card JS and registers the Lovelace resource.
-2. Install **`clock-weather-card`** (used by the shipped dashboard for weather)
-   via HACS, and the **Puppet** add-on.
+2. Install the community cards the shipped dashboard uses, all via HACS:
+   **`clock-weather-card`** (weather), **`card-mod`** (styles the weather to the
+   monochrome e-ink look), **`calendar-card-pro`** (calendar) — plus the
+   **Puppet** add-on.
 3. Build your view from `dashboards/reterminal.yaml` (one `custom:eink-panel-card`).
 4. Copy `ha/seconds-until-wake.yaml` + `ha/automations.yaml` into HA config; restart.
 5. Flash `device/reterminal-e1002.yaml` with ESPHome; point it at Puppet's image

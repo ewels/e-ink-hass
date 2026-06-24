@@ -19,34 +19,55 @@ views:
     panel: true # single card fills the viewport
     cards:
       - type: custom:eink-panel-card
-        # Weather uses the community clock-weather-card (install via HACS) for
-        # its polished rendering. To use the bundled card instead, set
-        # `type: custom:eink-weather-card` with `entity` + `days`.
+        # Weather: community clock-weather-card (install via HACS), styled to the
+        # monochrome e-ink look with card-mod (also a HACS dependency) — line
+        # icons recoloured to black, white range-bar tracks with grey fill, both
+        # bordered. This mirrors the cromelex reference setup.
         weather:
           type: custom:clock-weather-card
           entity: weather.forecast_home
-          forecast_rows: 3 # 3 fits cleanly above the conditions strip; 4 needs more room
+          sun_entity: sun.sun
+          forecast_rows: 4
           hide_clock: true # show condition + temperature, not a clock
           hide_date: true
-          # See clock-weather-card docs for more styling (weather_icon_type, etc.)
-        # Compact sensor strip filling the space between weather and price.
-        conditions:
-          items:
-            - entity: sensor.weather_station_outdoor_module_temperature
-              label: Outside
-            - entity: sensor.weather_station_temperature
-              label: Inside
-            - entity: sensor.weather_station_carbon_dioxide
-              label: CO₂
+          weather_icon_type: line
+          animated_icon: false
+          card_mod:
+            style: |
+              ha-card {
+                font-weight: 700;
+                padding: 0px !important;
+              }
+              forecast-temperature-bar-range {
+                background: #9e9e9e !important; /* solid grey fill, not the temperature gradient */
+                border: 1px solid black;
+                box-sizing: border-box;
+              }
+              forecast-temperature-bar-background {
+                opacity: 1 !important;
+                background: white !important;
+                border: 1px solid black !important;
+                border-radius: 15px !important;
+                box-sizing: border-box !important;
+              }
+              forecast-icon {
+                filter: grayscale(1) brightness(0.4);
+              }
+              clock-weather-card-today-left {
+                filter: grayscale(1) brightness(0);
+              }
         price:
           entity: sensor.greenely_prices
           title: Electricity
           low_threshold: 50 # öre/kWh — green below
           high_threshold: 200 # öre/kWh — red above
           cheapest_window: 8 # quarter-hours (= 2h); 0 to hide
+        # Calendar: community calendar-card-pro (install via HACS).
         calendar:
-          title: Calendar
-          days: 3
+          type: custom:calendar-card-pro
+          days_to_show: 3
+          time_24h: true
+          show_location: true
           entities:
             - entity: calendar.family
               color: "#0000ff" # blue

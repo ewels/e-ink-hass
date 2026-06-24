@@ -71,13 +71,16 @@ Puppet screenshots your Lovelace view into an image the device can fetch.
    - **Settings → People → Users → Add User** → `puppet`, **non-admin**.
    - Log in as `puppet` in a **private/incognito window** → its **Security** tab →
      **create a long-lived access token** → copy.
-3. **Puppet → Configuration** → set `access_token` to that token → **Save** → **Start**
-   (enable **Watchdog** and **Start on boot**).
-4. **Verify** from any browser on your LAN (use your HA's IP):
+3. **Puppet → Configuration** → set `access_token`, and **`keep_browser_open: true`**
+   (without it Chromium relaunches every render, which is slow and can hit a
+   `protocolTimeout` crash) → **Save** → **Start** (enable **Watchdog** + **Start on boot**).
+4. **Verify** from any browser on your LAN (use your HA's IP). The
+   **`?device=seeed-reterminal-e1002`** preset sets the right size, the panel's
+   real-ink palette, and dithering automatically:
    ```
-   http://<HA-IP>:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,008000
+   http://<HA-IP>:10000/e-ink/panel?device=seeed-reterminal-e1002
    ```
-   You should get a dithered 800×480 PNG. `colors` reduces to the panel's six Spectra inks.
+   You should get a dithered 800×480 PNG.
 
 ## 5. Flash the device (ESPHome)
 
@@ -90,10 +93,12 @@ Puppet screenshots your Lovelace view into an image the device can fetch.
 2. **+ New Device → (Advanced) Empty Configuration** → name `reterminal-eink` → paste
    [`device/reterminal-e1002.yaml`](device/reterminal-e1002.yaml).
 3. Set `substitutions.image_url` to use your **HA IP** (mDNS `.local` is flaky on the
-   ESP32), keeping the port/path/colors:
+   ESP32). The `?device` preset handles size/palette/dithering:
    ```
-   http://<HA-IP>:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,008000
+   http://<HA-IP>:10000/e-ink/panel?device=seeed-reterminal-e1002
    ```
+   The config uses `board: seeed_xiao_esp32s3` (the E1002 is built on a XIAO
+   ESP32-S3) and switches on the on-board battery/SD rails — both required.
 4. **Flash (first time over USB-C):**
    - Power switch **ON** (side), plug in **USB-C**.
    - The **BOOT/RESET buttons are internal** on the E1002 — you don't need them; the

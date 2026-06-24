@@ -1,38 +1,44 @@
 # ESPHome config for the Seeed reTerminal E1002 (7.3" Spectra 6 colour e-paper).
 #
-# On each wake:
-#   1. Connect Wi-Fi + HA API.
-#   2. Read sensor.eink_seconds_until_refresh from Home Assistant.
-#   3. Download the dashboard image from the Puppet add-on (already dithered to
-#      the 6 inks) and draw it.
-#   4. Deep-sleep for the seconds from step 2 — i.e. until exactly the next
-#      scheduled time (05:30 / 15:30 / 19:00). Change the schedule in
-#      ha/seconds-until-wake.yaml; never reflash.
+# Modelled on cromelex's known-good config for this exact device
+# (github.com/cromelex/e1002-esphome-dashboard), trimmed to a single dashboard.
+# The E1002 is built on a XIAO ESP32-S3, so the board is `seeed_xiao_esp32s3`
+# (NOT a generic esp32-s3 devkit) and it needs the on-board battery/SD enable
+# pins switched on at boot.
 #
-# Requires ESPHome >= 2025.11 for the `epaper_spi` / Seeed-reTerminal-E1002 model.
+# On wake: enable the rails, fetch the Puppet image (the ?device preset applies
+# the E1002 palette + dithering), draw it, stay awake briefly for OTA, then
+# deep-sleep for the seconds reported by HA's sensor.eink_seconds_until_refresh.
+#
+# Requires ESPHome >= 2025.11 (for the epaper_spi / Seeed-reTerminal-E1002 model).
 
 substitutions:
   name: reterminal-eink
-  # Puppet add-on screenshot endpoint: <ha-host>:10000/<dashboard-path>?params.
-  #   colors    = the six inks. Cards use these EXACT hex values, so solid colours
-  #               map 1:1 (no dithering). Green is 00FF00 (not 008000) so it sits
-  #               far from mid-grey — greys then dither to black/white, not onto green.
-  #   dithering = floyd-steinberg (DEFAULTS TO none — without it there are no greys!)
-  # Use the HA IP instead of homeassistant.local if mDNS is flaky on the ESP32.
-  image_url: "http://homeassistant.local:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg"
+  friendly_name: reTerminal E-ink
+  # Puppet screenshot. ?device=seeed-reterminal-e1002 applies the built-in E1002
+  # preset (800x480, the panel's real-ink palette + stucki dithering) — no need
+  # to hand-specify colors/dithering. Use the HA IP if mDNS is flaky on the ESP32.
+  image_url: "http://homeassistant.local:10000/e-ink/panel?device=seeed-reterminal-e1002"
 
 esphome:
   name: ${name}
-  friendly_name: reTerminal E-ink
+  friendly_name: ${friendly_name}
   on_boot:
-    priority: -100
-    then:
-      - logger.log: "Awake — fetching dashboard"
-      - delay: 2s # let the HA sensor value arrive over the API
-      - component.update: dashboard_image
+    - priority: 600 # power up the on-board rails first
+      then:
+        - output.turn_on: bsp_battery_enable
+        - output.turn_on: bsp_sd_enable
+    - priority: -100
+      then:
+        - delay: 5s # let WiFi/API/time settle
+        - component.update: dashboard_image # fetch + draw
+        - delay: 45s # stay awake a moment so OTA updates can land
+        - deep_sleep.enter:
+            id: deep_sleep_ctl
+            sleep_duration: !lambda "return (uint64_t) id(next_sleep_seconds) * 1000;"
 
 esp32:
-  board: esp32-s3-devkitc-1
+  board: seeed_xiao_esp32s3
   framework:
     type: esp-idf
 
@@ -41,17 +47,28 @@ psram:
   speed: 80MHz
 
 logger:
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+  hardware_uart: UART0 # report logs over USB on this device
 
 api:
 ota:
   - platform: esphome
 
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+time:
+  - platform: homeassistant
+    id: ha_time
+
 http_request:
-  timeout: 10s
   verify_ssl: false
+  timeout: 15s
+  watchdog_timeout: 20s # Puppet's first (cold) render can be slow; don't hang
+
+i2c:
+  scl: GPIO20
+  sda: GPIO19
 
 globals:
   - id: next_sleep_seconds
@@ -59,34 +76,44 @@ globals:
     restore_value: false
     initial_value: "21600" # 6h fallback if HA is unreachable
 
-# Pull the seconds-until-next-refresh straight from the HA template sensor.
 sensor:
+  # Seconds until the next scheduled refresh, from the HA template sensor.
   - platform: homeassistant
     id: ha_sleep_seconds
     entity_id: sensor.eink_seconds_until_refresh
     on_value:
-      then:
-        - lambda: "id(next_sleep_seconds) = (int) x;"
+      - lambda: "id(next_sleep_seconds) = (int) x;"
   - platform: adc
     pin: GPIO1
     name: "reTerminal battery voltage"
     attenuation: 12db
+    update_interval: 60s
     filters:
       - multiply: 2.0 # on-board divider
+  - platform: sht4x # on-board tem/humidity sensor
+    temperature:
+      name: "reTerminal temperature"
+    humidity:
+      name: "reTerminal humidity"
+    update_interval: 60s
+
+output:
+  - platform: gpio
+    pin: GPIO21
+    id: bsp_battery_enable
+  - platform: gpio
+    pin: GPIO16
+    id: bsp_sd_enable
 
 online_image:
   - id: dashboard_image
     url: ${image_url}
     format: PNG
     type: RGB565
+    buffer_size: 65536
     update_interval: never
     on_download_finished:
-      then:
-        - component.update: eink
-        - delay: 2s # allow the panel refresh to complete
-        - deep_sleep.enter:
-            id: deep_sleep_ctl
-            sleep_duration: !lambda "return (uint64_t) id(next_sleep_seconds) * 1000;"
+      - component.update: eink
 
 spi:
   clk_pin: GPIO7
@@ -96,22 +123,16 @@ display:
   - platform: epaper_spi
     id: eink
     model: Seeed-reTerminal-E1002
-    cs_pin: GPIO10
-    dc_pin: GPIO11
-    reset_pin: GPIO12
-    busy_pin: GPIO13
     update_interval: never
-    pages:
-      - id: page_image
-        lambda: |-
-          if (id(dashboard_image).get_width() > 0) {
-            it.image(0, 0, id(dashboard_image));
-          }
+    lambda: |-
+      if (id(dashboard_image).get_width() > 0) {
+        it.image(0, 0, id(dashboard_image));
+      }
 
 deep_sleep:
   id: deep_sleep_ctl
-  # Duration is set per-wake from the HA sensor (see online_image above).
-  # The right-hand button also wakes the device for an on-demand refresh.
+  # Duration is set per-wake from the HA sensor (see on_boot). The button on
+  # GPIO3 also wakes the device for an on-demand refresh.
   wakeup_pin:
-    number: GPIO4
+    number: GPIO3
     inverted: true

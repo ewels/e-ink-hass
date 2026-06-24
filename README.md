@@ -52,6 +52,28 @@ freely mix bundled custom cards with community ones. The shipped dashboard uses:
 Bundled alternatives (`eink-weather-card`, `eink-calendar-card`, `eink-conditions-card`)
 remain available and are fully previewable in the dev harness.
 
+## Display colours (Spectra 6)
+
+The panel can only show **six inks**. Solid card colours must use these exact hex
+values so each maps 1:1 to an ink and renders crisp — anything else dithers to a
+halftone of the nearest inks (sometimes wanted: the weather bars/icons use grey to
+dither black/white, and the mid price bars use `#ff8000` for a deliberate
+yellow/red "orange").
+
+| Ink | Use this hex (cards + Puppet `colors=`) | Real on-panel appearance\* |
+|-----|------------------------------------------|-----------------------------|
+| Black  | `#000000` | `#191E21` |
+| White  | `#ffffff` | `#E8E8E8` |
+| Red    | `#ff0000` | `#B21318` |
+| Green  | `#00ff00` | `#125F20` |
+| Blue   | `#0000ff` | `#2157BA` |
+| Yellow | `#ffff00` | `#EFDE44` |
+
+\* the real measured inks (Seeed's `7.3in-spectra-e6` profile). We feed the *pure*
+hex to the cards and Puppet so deliberate greys/oranges dither cleanly against a
+wide palette rather than collapsing into the muted real inks (see
+`src/shared/palette.ts` and the note in [SETUP.md](SETUP.md#4-install--configure-the-puppet-add-on)).
+
 ## Refresh schedule
 
 Wakes only at **05:30 / 15:30 / 19:00** (edit in `ha/seconds-until-wake.yaml`).

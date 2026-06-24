@@ -10,7 +10,11 @@
 
 template:
   - sensor:
-      - name: "E-ink seconds until refresh"
+      # NB: the entity_id is derived from this name's slug, and MUST match the
+      # `entity_id:` the device reads in device/reterminal-e1002.yaml. "Eink"
+      # (no hyphen) -> sensor.eink_seconds_until_refresh. ("E-ink" would slug to
+      # sensor.e_ink_seconds_until_refresh, and the device wouldn't find it.)
+      - name: "Eink seconds until refresh"
         unique_id: eink_seconds_until_refresh
         unit_of_measurement: s
         device_class: duration

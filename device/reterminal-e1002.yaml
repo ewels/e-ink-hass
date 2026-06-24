@@ -14,10 +14,12 @@
 substitutions:
   name: reterminal-eink
   # Puppet add-on screenshot endpoint: <ha-host>:10000/<dashboard-path>?params.
-  # `colors` reduces the palette to the panel's six Spectra inks (Puppet dithers
-  # to these). Use the HA IP instead of homeassistant.local if mDNS is flaky on
-  # the ESP32. Tip: add &theme=... or kiosk-mode for a chrome-free capture.
-  image_url: "http://homeassistant.local:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,008000"
+  #   colors    = the six inks. Cards use these EXACT hex values, so solid colours
+  #               map 1:1 (no dithering). Green is 00FF00 (not 008000) so it sits
+  #               far from mid-grey — greys then dither to black/white, not onto green.
+  #   dithering = floyd-steinberg (DEFAULTS TO none — without it there are no greys!)
+  # Use the HA IP instead of homeassistant.local if mDNS is flaky on the ESP32.
+  image_url: "http://homeassistant.local:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg"
 
 esphome:
   name: ${name}

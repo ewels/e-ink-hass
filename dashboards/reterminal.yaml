@@ -39,7 +39,6 @@ views:
                 padding: 0px !important;
               }
               forecast-temperature-bar-range {
-                background: #808080 !important; /* mid-grey → dithers to a black/white halftone */
                 border: 1px solid black;
                 box-sizing: border-box;
               }
@@ -51,10 +50,15 @@ views:
                 box-sizing: border-box !important;
               }
               forecast-icon {
+                border-radius: 15px !important;
                 filter: grayscale(1) brightness(0.4);
+                width: 40px;
+                height: 40px;
               }
               clock-weather-card-today-left {
                 filter: grayscale(1) brightness(0);
+                max-height: 50px;
+                transform: scale(2.8) translate(0px, 9px);
               }
         price:
           entity: sensor.greenely_prices

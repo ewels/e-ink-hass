@@ -31,19 +31,21 @@ flowchart LR
 
 This repo provides three things:
 
-1. **Custom Lovelace cards** (`src/cards/`) — bespoke HTML/CSS web components for
-   the whole panel (weather, calendar, electricity price), tuned for the 6-ink
-   e-paper. Installed via **HACS as a Lovelace/Dashboard plugin**.
+1. **Custom Lovelace cards** (`src/cards/`) — bespoke web components (price,
+   calendar, conditions, and a `panel` card that lays them out), tuned for the
+   6-ink e-paper. Installed via **HACS as a Lovelace/Dashboard plugin**.
 2. **Home Assistant config** (`ha/`) — the `seconds-until-wake` template sensor
    and time-of-day automations. Copied into your HA config.
 3. **Device config** (`device/`) — ESPHome for the reTerminal: deep-sleep that
    reads the template sensor to wake at exactly your chosen times.
 
-The panel is built entirely from custom cards so the styling is fully under your
-control and previewable in the dev harness. Community cards
-([`clock-weather-card`](https://github.com/pkissling/clock-weather-card),
-[`calendar-card-pro`](https://github.com/alexpfau/calendar-card-pro)) remain
-drop-in alternatives if you'd rather not maintain a custom weather/calendar card.
+The `panel` card composes its slots via Home Assistant's card helpers, so you can
+freely mix the bundled custom cards with community ones. The shipped dashboard
+uses [`clock-weather-card`](https://github.com/pkissling/clock-weather-card) for
+the weather block (its rendering is hard to beat) alongside the custom price,
+calendar and conditions cards. A bundled `eink-weather-card` is included as an
+alternative, and [`calendar-card-pro`](https://github.com/alexpfau/calendar-card-pro)
+is a drop-in alternative for the calendar.
 
 ## Refresh schedule
 
@@ -92,9 +94,9 @@ ever loading it into Home Assistant.
 
 1. **HACS → Custom repositories** → add this repo, category **Dashboard** →
    install. HACS serves the card JS and registers the Lovelace resource.
-2. Install community cards (`clock-weather-card`, `calendar-card-pro`,
-   `apexcharts-card`) and the **Puppet** add-on.
-3. Build your view from `dashboards/` (uses `type: custom:eink-price-card` etc.).
+2. Install **`clock-weather-card`** (used by the shipped dashboard for weather)
+   via HACS, and the **Puppet** add-on.
+3. Build your view from `dashboards/reterminal.yaml` (one `custom:eink-panel-card`).
 4. Copy `ha/seconds-until-wake.yaml` + `ha/automations.yaml` into HA config; restart.
 5. Flash `device/reterminal-e1002.yaml` with ESPHome; point it at Puppet's image
    URL for your view.
@@ -104,9 +106,11 @@ ever loading it into Home Assistant.
 Cards built and previewable in the dev harness against real HA data:
 
 - `eink-price-card` — electricity price bars (öre, today + tomorrow)
-- `eink-weather-card` — current conditions + daily forecast range bars
 - `eink-calendar-card` — day-grouped agenda, colour-coded by calendar
-- `eink-panel-card` — composes the three into the fixed 800×480 layout (the
+- `eink-conditions-card` — compact sensor strip (indoor/outdoor temp, CO₂)
+- `eink-weather-card` — current conditions + forecast range bars (alternative to
+  clock-weather-card)
+- `eink-panel-card` — composes the slots into the fixed 800×480 layout (the
   single card the Lovelace view uses)
 
 Plus `dashboards/reterminal.yaml` (the composed Lovelace view), and the

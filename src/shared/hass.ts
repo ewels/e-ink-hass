@@ -41,9 +41,17 @@ export interface CustomCard {
   preview?: boolean;
 }
 
+/** An embeddable card element (custom or built-in). */
+export interface LovelaceCard extends HTMLElement {
+  setConfig?: (config: unknown) => void;
+  hass?: HomeAssistant;
+}
+
 declare global {
   interface Window {
     customCards?: CustomCard[];
+    /** HA frontend helper for building card elements by config (incl. `custom:`). */
+    loadCardHelpers?: () => Promise<{ createCardElement: (config: unknown) => LovelaceCard }>;
   }
 }
 

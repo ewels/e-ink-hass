@@ -31,6 +31,19 @@
     <script type="module">
       import "../dist/eink-dashboard-cards.js";
 
+      // Shim HA's loadCardHelpers so the panel card can build children in the
+      // harness exactly as it does in Home Assistant. (Community cards like
+      // clock-weather-card aren't loaded here, so those slots stay blank — the
+      // dashboard uses them in HA; the harness uses the bundled custom cards.)
+      window.loadCardHelpers = async () => ({
+        createCardElement(config) {
+          const tag = String(config.type || "").replace(/^custom:/, "");
+          const el = document.createElement(tag);
+          if (typeof el.setConfig === "function") el.setConfig(config);
+          return el;
+        },
+      });
+
       // --- mock snapshot (used when dev/hass-snapshot.json is absent) ---
       function mockSnapshot() {
         const hourly = [
@@ -127,6 +140,13 @@
       const panel = document.getElementById("panel");
       panel.setConfig({
         weather: { entity: "weather.forecast_home", days: 4 },
+        conditions: {
+          items: [
+            { entity: "sensor.weather_station_outdoor_module_temperature", label: "Outside" },
+            { entity: "sensor.weather_station_temperature", label: "Inside" },
+            { entity: "sensor.weather_station_carbon_dioxide", label: "CO₂" },
+          ],
+        },
         price: { entity: "sensor.greenely_prices", title: "Electricity" },
         calendar: {
           title: "Calendar",

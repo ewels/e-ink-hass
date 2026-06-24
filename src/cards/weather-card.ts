@@ -35,7 +35,8 @@ export class EinkWeatherCard extends LitElement {
   private _loaded = false;
 
   setConfig(config: WeatherCardConfig): void {
-    this._config = { entity: "weather.forecast_home", days: 4, ...config };
+    if (!config?.entity) throw new Error("eink-weather-card: 'entity' is required");
+    this._config = { days: 4, ...config };
   }
 
   getCardSize(): number {

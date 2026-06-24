@@ -19,9 +19,23 @@ views:
     panel: true # single card fills the viewport
     cards:
       - type: custom:eink-panel-card
+        # Weather uses the community clock-weather-card (install via HACS) for
+        # its polished rendering. To use the bundled card instead, set
+        # `type: custom:eink-weather-card` with `entity` + `days`.
         weather:
+          type: custom:clock-weather-card
           entity: weather.forecast_home
-          days: 4
+          forecast_rows: 4
+          # See clock-weather-card docs for more styling (weather_icon_type: line, etc.)
+        # Compact sensor strip filling the space between weather and price.
+        conditions:
+          items:
+            - entity: sensor.weather_station_outdoor_module_temperature
+              label: Outside
+            - entity: sensor.weather_station_temperature
+              label: Inside
+            - entity: sensor.weather_station_carbon_dioxide
+              label: CO₂
         price:
           entity: sensor.greenely_prices
           title: Electricity

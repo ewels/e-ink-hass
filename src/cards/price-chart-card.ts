@@ -55,13 +55,8 @@ export class EinkPriceCard extends LitElement {
   private _config: PriceCardConfig = {};
 
   setConfig(config: PriceCardConfig): void {
-    this._config = {
-      entity: "sensor.greenely_prices",
-      title: "Electricity",
-      low_threshold: 50,
-      high_threshold: 200,
-      ...config,
-    };
+    if (!config?.entity) throw new Error("eink-price-card: 'entity' is required");
+    this._config = { title: "Electricity", low_threshold: 50, high_threshold: 200, ...config };
   }
 
   getCardSize(): number {

@@ -1,12 +1,14 @@
 import { EinkPriceCard } from "./cards/price-chart-card.js";
 import { EinkWeatherCard } from "./cards/weather-card.js";
 import { EinkCalendarCard } from "./cards/calendar-card.js";
+import { EinkConditionsCard } from "./cards/conditions-card.js";
 import { EinkPanelCard } from "./cards/panel-card.js";
 
 const CARDS: Array<[string, CustomElementConstructor]> = [
   ["eink-price-card", EinkPriceCard],
   ["eink-weather-card", EinkWeatherCard],
   ["eink-calendar-card", EinkCalendarCard],
+  ["eink-conditions-card", EinkConditionsCard],
   ["eink-panel-card", EinkPanelCard],
 ];
 

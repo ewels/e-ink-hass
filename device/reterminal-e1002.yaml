@@ -6,25 +6,28 @@
 # (NOT a generic esp32-s3 devkit) and it needs the on-board battery/SD enable
 # pins switched on at boot.
 #
-# On wake: enable the rails, fetch the Puppet image (the ?device preset applies
-# the E1002 palette + dithering), draw it, stay awake briefly for OTA, then
-# deep-sleep for the seconds reported by HA's sensor.eink_seconds_until_refresh.
+# On wake: enable the rails, read which dashboard to show (sensor.eink_dashboard),
+# fetch that Puppet screenshot, draw it, stay awake briefly for OTA, then deep-sleep
+# for the seconds reported by HA's sensor.eink_seconds_until_refresh. Both sensors
+# come from the schedule-driven ha/eink_schedule component.
 #
 # Requires ESPHome >= 2025.11 (for the epaper_spi / Seeed-reTerminal-E1002 model).
 
 substitutions:
   name: reterminal-eink
   friendly_name: reTerminal E-ink
-  # Puppet screenshot. We DON'T use ?device=seeed-reterminal-e1002: that preset
-  # matches against the panel's real (muted) inks, whose green sits near mid-grey,
-  # so our deliberate greys (weather bars + icons) dither into colour noise.
-  # Instead a pure palette (green = 00FF00, far from grey) + floyd-steinberg keeps
-  # greys as clean B/W halftones while the solid-ink price bars don't dither.
-  # Use the HA IP if mDNS is flaky on the ESP32.
-  # &wait=6000: Puppet only waits ~2.5s (cold) / 750ms (warm) by default, which
-  # isn't long enough for calendar-card-pro to fetch its events — it'd screenshot
-  # "Loading calendar events". 6s covers it (keep it < http_request timeout below).
-  image_url: "http://homeassistant.local:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg&wait=6000"
+  # Puppet screenshot. The dashboard/view path is chosen at runtime from
+  # sensor.eink_dashboard (see text_sensor + on_boot), so only the host + render
+  # query live here. Use the HA IP if mDNS is flaky on the ESP32.
+  #
+  # We DON'T use ?device=seeed-reterminal-e1002: that preset matches the panel's
+  # real (muted) inks, whose green sits near mid-grey, so our deliberate greys
+  # (weather bars + icons) dither into colour noise. A pure palette (green=00FF00,
+  # far from grey) + floyd-steinberg keeps greys as clean B/W halftones while the
+  # solid-ink price bars don't dither. &wait=6000 gives calendar-card-pro time to
+  # fetch its events (Puppet's default ~2.5s/750ms catches "Loading calendar events").
+  puppet_host: "http://homeassistant.local:10000"
+  image_query: "viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg&wait=6000"
 
 esphome:
   name: ${name}
@@ -36,7 +39,11 @@ esphome:
         - output.turn_on: bsp_sd_enable
     - priority: -100
       then:
-        - delay: 5s # let WiFi/API/time settle
+        - delay: 5s # let WiFi/API/time settle (and sensor.eink_dashboard arrive)
+        - lambda: |-
+            // Build the Puppet URL for the dashboard HA says to show right now.
+            std::string url = std::string("${puppet_host}/e-ink/") + id(dashboard_path) + "?${image_query}";
+            id(dashboard_image).set_url(url);
         - component.update: dashboard_image # fetch + draw
         - delay: 45s # stay awake a moment so OTA updates can land
         - deep_sleep.enter:
@@ -81,6 +88,10 @@ globals:
     type: int
     restore_value: false
     initial_value: "21600" # 6h fallback if HA is unreachable
+  - id: dashboard_path
+    type: std::string
+    restore_value: false
+    initial_value: '"panel"' # fallback view if HA hasn't reported one yet
 
 sensor:
   # Seconds until the next scheduled refresh, from the HA template sensor.
@@ -103,6 +114,14 @@ sensor:
       name: "reTerminal humidity"
     update_interval: 60s
 
+text_sensor:
+  # Which dashboard/view to show now, from the schedule-driven HA sensor.
+  - platform: homeassistant
+    id: ha_dashboard
+    entity_id: sensor.eink_dashboard
+    on_value:
+      - lambda: "id(dashboard_path) = x;"
+
 output:
   - platform: gpio
     pin: GPIO21
@@ -113,7 +132,7 @@ output:
 
 online_image:
   - id: dashboard_image
-    url: ${image_url}
+    url: "${puppet_host}/e-ink/panel?${image_query}" # default; overridden per-wake via set_url
     format: PNG
     type: RGB565
     buffer_size: 65536

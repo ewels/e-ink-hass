@@ -78,10 +78,13 @@ views:
               color: "#0000ff" # blue
             - entity: calendar.personal
               color: "#008000" # green
-            # `blocklist` is a regex on the event title — handy for a work
-            # calendar to drop auto-generated "Out of office" / "Focus time" blocks.
+            # `blocklist` is a regex on the event *title*. Use it to drop events
+            # by name. NOTE: to hide Focus time / Out of office (incl. custom-named
+            # focus blocks) or events you haven't accepted, prefer the optional
+            # ha/google_rsvp_filter/ component — it filters by Google event type +
+            # RSVP, which a title regex can't do reliably.
             - entity: calendar.work
               color: "#000000" # black
-              blocklist: "out of office|focus time"
+              # blocklist: "standup|lunch"   # example: hide by title
             - entity: calendar.holidays_in_sweden
               color: "#ff0000" # red

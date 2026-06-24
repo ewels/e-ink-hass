@@ -14,9 +14,14 @@ export const INK = {
   green: "#00ff00",
 } as const;
 
-/** Price-level → ink, matching the reference price charts. */
+/**
+ * Price-level → bar colour. `low`/`high` are pure inks, so they render solid.
+ * `mid` is deliberately NOT a palette ink: pure yellow is very pale on the panel,
+ * so we use an orange exactly midway between yellow and red — it dithers to an
+ * even yellow/red mix that reads as a solid, darker orange.
+ */
 export const LEVEL_INK = {
   low: INK.green,
-  mid: INK.yellow,
+  mid: "#ff8000",
   high: INK.red,
 } as const;

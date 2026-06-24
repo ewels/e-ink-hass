@@ -21,7 +21,10 @@ substitutions:
   # Instead a pure palette (green = 00FF00, far from grey) + floyd-steinberg keeps
   # greys as clean B/W halftones while the solid-ink price bars don't dither.
   # Use the HA IP if mDNS is flaky on the ESP32.
-  image_url: "http://homeassistant.local:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg"
+  # &wait=6000: Puppet only waits ~2.5s (cold) / 750ms (warm) by default, which
+  # isn't long enough for calendar-card-pro to fetch its events — it'd screenshot
+  # "Loading calendar events". 6s covers it (keep it < http_request timeout below).
+  image_url: "http://homeassistant.local:10000/e-ink/panel?viewport=800x480&colors=000000,FFFFFF,FF0000,FFFF00,0000FF,00FF00&dithering=floyd-steinberg&wait=6000"
 
 esphome:
   name: ${name}

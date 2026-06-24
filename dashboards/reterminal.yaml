@@ -78,5 +78,10 @@ views:
               color: "#0000ff" # blue
             - entity: calendar.personal
               color: "#008000" # green
+            # `blocklist` is a regex on the event title — handy for a work
+            # calendar to drop auto-generated "Out of office" / "Focus time" blocks.
+            - entity: calendar.work
+              color: "#000000" # black
+              blocklist: "out of office|focus time"
             - entity: calendar.holidays_in_sweden
               color: "#ff0000" # red

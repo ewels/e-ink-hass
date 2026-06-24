@@ -39,10 +39,17 @@ esphome:
         - output.turn_on: bsp_sd_enable
     - priority: -100
       then:
-        - delay: 5s # let WiFi/API/time settle (and sensor.eink_dashboard arrive)
+        - delay: 5s # let WiFi/API/time settle
+        # Wait until HA has actually pushed sensor.eink_dashboard, so we don't
+        # fetch before the real value arrives (otherwise it races the default).
+        - wait_until:
+            condition:
+              lambda: "return id(ha_dashboard).has_state();"
+            timeout: 10s
         - lambda: |-
             // Build the Puppet URL for the dashboard HA says to show right now.
-            std::string url = std::string("${puppet_host}/e-ink/") + id(dashboard_path) + "?${image_query}";
+            std::string dash = id(ha_dashboard).has_state() ? id(ha_dashboard).state : std::string("panel");
+            std::string url = std::string("${puppet_host}/e-ink/") + dash + "?${image_query}";
             id(dashboard_image).set_url(url);
         - component.update: dashboard_image # fetch + draw
         - delay: 45s # stay awake a moment so OTA updates can land
@@ -88,10 +95,6 @@ globals:
     type: int
     restore_value: false
     initial_value: "21600" # 6h fallback if HA is unreachable
-  - id: dashboard_path
-    type: std::string
-    restore_value: false
-    initial_value: '"panel"' # fallback view if HA hasn't reported one yet
 
 sensor:
   # Seconds until the next scheduled refresh, from the HA template sensor.
@@ -116,11 +119,10 @@ sensor:
 
 text_sensor:
   # Which dashboard/view to show now, from the schedule-driven HA sensor.
+  # Read directly in on_boot (after wait_until has_state) — no global needed.
   - platform: homeassistant
     id: ha_dashboard
     entity_id: sensor.eink_dashboard
-    on_value:
-      - lambda: "id(dashboard_path) = x;"
 
 output:
   - platform: gpio

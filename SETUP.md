@@ -140,6 +140,10 @@ battery. Press the right-hand button (GPIO4) to force an on-demand refresh.
 - **Schedule:** the `times` list in `ha/seconds-until-wake.yaml`
 - **Layout / cards / entities:** the dashboard's raw config (from `dashboards/reterminal.yaml`)
 - **Price thresholds, calendars, weather styling:** the card options in that config
+- **Hide focus-time / OOO / un-accepted calendar events:** optional custom component
+  [`ha/google_rsvp_filter/`](ha/google_rsvp_filter/README.md) — filters by Google
+  event *type* and RSVP status, which the built-in integration and a card blocklist
+  can't. Useful for a busy work calendar.
 - **Develop cards:** `npm run dev` for the 800×480 browser harness (see [README](README.md#develop-a-card))
 
 > The ESPHome config in `device/` is a solid starting point but **not yet validated on

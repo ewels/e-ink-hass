@@ -132,6 +132,8 @@ battery. Press the right-hand button (GPIO4) to force an on-demand refresh.
 | Device can't fetch the image | Use the HA **IP**, not `.local`; confirm Puppet is running and reachable on `:10000` |
 | Colours look off / banded | Tune the `colors` palette in the image URL |
 | Can't re-flash (device asleep) | Wake with the green top button, or catch it during its brief awake window |
+| Card changes don't show after a HACS update | Puppet's Chromium caches the old JS bundle. **Restart the Puppet add-on** (or call the `hassio.addon_restart` service) to force a fresh load. Dashboard *config* changes don't need this — only updates to the card bundle itself |
+| Calendar shows "Loading calendar events" | Increase `&wait=` (ms) in the image URL — calendar-card-pro fetches events async and Puppet's default wait is too short |
 
 ## Customising
 

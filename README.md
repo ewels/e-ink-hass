@@ -97,17 +97,17 @@ ever loading it into Home Assistant.
 
 ## Install (in Home Assistant)
 
-1. **HACS → Custom repositories** → add `https://github.com/ewels/e-ink-hass`,
-   category **Dashboard** → install. HACS serves the card JS and registers the
-   Lovelace resource.
-2. Install the community cards the shipped dashboard uses, all via HACS:
-   **`clock-weather-card`** (weather), **`card-mod`** (styles the weather to the
-   monochrome e-ink look), **`calendar-card-pro`** (calendar) — plus the
-   **Puppet** add-on.
-3. Build your view from `dashboards/reterminal.yaml` (one `custom:eink-panel-card`).
-4. Copy `ha/seconds-until-wake.yaml` + `ha/automations.yaml` into HA config; restart.
-5. Flash `device/reterminal-e1002.yaml` with ESPHome; point it at Puppet's image
-   URL for your view.
+**→ Follow the full step-by-step guide in [SETUP.md](SETUP.md).** It covers the
+whole path with the gotchas baked in. In short:
+
+1. **Cards (HACS):** add this repo (category Dashboard) + `clock-weather-card`,
+   `card-mod`, `calendar-card-pro`.
+2. **Dashboard:** create an `E-ink` dashboard and paste `dashboards/reterminal.yaml`.
+3. **Wake-time sensor:** add `ha/seconds-until-wake.yaml` to your config; restart.
+4. **Puppet add-on:** install `balloob/home-assistant-addons` → Puppet; give it a
+   **dedicated HA user's** token (it persists its theme to that user); start it.
+5. **Device:** flash `device/reterminal-e1002.yaml` with ESPHome, pointing
+   `image_url` at Puppet (use your HA IP, not `.local`).
 
 ## Status
 

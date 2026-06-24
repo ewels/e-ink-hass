@@ -30,7 +30,7 @@ interface PriceCardConfig {
   cheapest_window?: number;
 }
 
-const BARS_PX = 132;
+const BARS_PX = 96;
 
 const isoOf = (p: RawPoint): number =>
   (p.start ? new Date(p.start) : new Date(`${p.date} ${p.time}`)).getTime();

@@ -75,14 +75,14 @@ export class EinkConditionsCard extends LitElement {
       background: var(--paper);
       color: var(--ink);
       font-family: Helvetica, Arial, sans-serif;
-      padding: 10px 16px;
+      padding: 7px 16px;
     }
     .tile {
       flex: 1 1 0;
       min-width: 0;
     }
     .val {
-      font-size: 30px;
+      font-size: 25px;
       font-weight: 800;
       line-height: 1;
     }
@@ -92,11 +92,11 @@ export class EinkConditionsCard extends LitElement {
       margin-left: 2px;
     }
     .lbl {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      margin-top: 4px;
+      margin-top: 3px;
     }
   `;
 }

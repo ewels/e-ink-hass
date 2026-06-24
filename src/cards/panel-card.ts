@@ -107,14 +107,16 @@ export class EinkPanelCard extends LitElement {
   render() {
     return html`
       <div class="panel">
-        <div class="left">
-          <div class="slot weather"></div>
-          <div class="slot conditions"></div>
-          <div class="slot price"></div>
+        <div class="top">
+          <div class="left">
+            <div class="slot weather"></div>
+            <div class="slot conditions"></div>
+          </div>
+          <div class="right">
+            <div class="slot calendar"></div>
+          </div>
         </div>
-        <div class="right">
-          <div class="slot calendar"></div>
-        </div>
+        <div class="slot price"></div>
       </div>
     `;
   }
@@ -140,31 +142,51 @@ export class EinkPanelCard extends LitElement {
       height: 480px;
       background: var(--paper);
       display: flex;
+      flex-direction: column;
       overflow: hidden;
     }
-    .left {
+    .top {
+      flex: 1 1 auto;
+      display: flex;
+      min-height: 0;
+    }
+    .top .left {
       flex: 0 0 57%;
       display: flex;
       flex-direction: column;
       min-width: 0;
+      min-height: 0;
     }
-    .left .price {
-      margin-top: auto; /* pin the price chart to the bottom */
+    .top .right {
+      flex: 1 1 auto;
+      min-width: 0;
+      min-height: 0;
+      border-left: 2px solid var(--ink);
+      overflow: hidden;
+    }
+    /* Weather may be a tall card (clock-weather-card); let it shrink/clip rather
+       than overflow its column. */
+    .left .weather {
+      flex: 0 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .left .conditions {
+      flex: 0 0 auto;
+    }
+    /* Price chart spans the full width along the bottom. */
+    .price {
+      flex: 0 0 auto;
       border-top: 2px solid var(--ink);
+    }
+    .slot {
+      min-width: 0;
     }
     .slot.conditions:empty {
       display: none;
     }
     .slot.conditions:not(:empty) {
       border-top: 2px solid var(--ink);
-    }
-    .right {
-      flex: 1 1 auto;
-      min-width: 0;
-      border-left: 2px solid var(--ink);
-    }
-    .slot {
-      min-width: 0;
     }
   `;
 }

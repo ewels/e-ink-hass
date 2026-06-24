@@ -25,7 +25,7 @@ views:
         weather:
           type: custom:clock-weather-card
           entity: weather.forecast_home
-          forecast_rows: 4
+          forecast_rows: 3 # 3 fits cleanly above the conditions strip; 4 needs more room
           hide_clock: true # show condition + temperature, not a clock
           hide_date: true
           # See clock-weather-card docs for more styling (weather_icon_type, etc.)

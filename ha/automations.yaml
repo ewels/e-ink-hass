@@ -1,0 +1,53 @@
+# Time-of-day dashboard selection + battery alert for the e-ink display.
+#
+# The device wakes at the scheduled times (driven by sensor.eink_seconds_until_refresh)
+# and screenshots whatever the active Lovelace view shows. These automations set
+# `input_select.eink_dashboard` so the view's conditional cards (see
+# dashboards/reterminal.yaml) render the right layout for the time of day.
+
+# --- Helper (add under input_select: in configuration.yaml) ---
+# input_select:
+#   eink_dashboard:
+#     name: E-ink active dashboard
+#     options: [morning, afternoon, evening]
+#     initial: morning
+#     icon: mdi:tablet-dashboard
+
+automation:
+  - alias: "E-ink: morning dashboard"
+    triggers:
+      - trigger: time
+        at: "05:30:00"
+    actions:
+      - action: input_select.select_option
+        target: { entity_id: input_select.eink_dashboard }
+        data: { option: morning }
+
+  - alias: "E-ink: afternoon dashboard"
+    triggers:
+      - trigger: time
+        at: "15:30:00"
+    actions:
+      - action: input_select.select_option
+        target: { entity_id: input_select.eink_dashboard }
+        data: { option: afternoon }
+
+  - alias: "E-ink: evening dashboard"
+    triggers:
+      - trigger: time
+        at: "19:00:00"
+    actions:
+      - action: input_select.select_option
+        target: { entity_id: input_select.eink_dashboard }
+        data: { option: evening }
+
+  - alias: "E-ink: low battery alert"
+    triggers:
+      - trigger: numeric_state
+        entity_id: sensor.reterminal_battery_level
+        below: 15
+    actions:
+      - action: notify.persistent_notification
+        data:
+          title: "E-ink display battery low"
+          message: "reTerminal battery at {{ states('sensor.reterminal_battery_level') }}% — recharge soon."

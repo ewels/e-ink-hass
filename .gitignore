@@ -1,0 +1,12 @@
+node_modules/
+*.log
+
+# Secrets / local dev
+.env
+.env.*
+!.env.example
+dev/hass-snapshot.json
+
+# dist/ is committed on purpose — HACS serves the built bundle from it.
+# ...but not dev sourcemaps (only produced by `npm run dev`).
+dist/*.map

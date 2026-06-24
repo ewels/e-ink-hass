@@ -1,0 +1,47 @@
+# Template sensor: seconds until the next scheduled e-ink refresh.
+#
+# The device reads this on wake and deep-sleeps for exactly this many seconds,
+# so the whole schedule lives here — edit `times` to change when the display
+# updates; no reflashing. HA re-renders now()-based templates every minute, so
+# the value is always current when the device reads it.
+#
+# Add to configuration.yaml (or a template: package). Then: Developer Tools →
+# YAML → Reload Template Entities (or restart HA).
+
+template:
+  - sensor:
+      - name: "E-ink seconds until refresh"
+        unique_id: eink_seconds_until_refresh
+        unit_of_measurement: s
+        device_class: duration
+        state: >
+          {% set times = ['05:30', '15:30', '19:00'] %}
+          {% set ns = namespace(best = none) %}
+          {% for t in times %}
+            {% set target = today_at(t) %}
+            {% if target <= now() %}
+              {% set target = target + timedelta(hours=24) %}
+            {% endif %}
+            {% set delta = (target - now()).total_seconds() | int %}
+            {% if ns.best is none or delta < ns.best %}
+              {% set ns.best = delta %}
+            {% endif %}
+          {% endfor %}
+          {{ ns.best }}
+        attributes:
+          # Handy for debugging / showing "next refresh" on the dashboard.
+          next_refresh: >
+            {% set times = ['05:30', '15:30', '19:00'] %}
+            {% set ns = namespace(best = none, at = none) %}
+            {% for t in times %}
+              {% set target = today_at(t) %}
+              {% if target <= now() %}
+                {% set target = target + timedelta(hours=24) %}
+              {% endif %}
+              {% set delta = (target - now()).total_seconds() | int %}
+              {% if ns.best is none or delta < ns.best %}
+                {% set ns.best = delta %}
+                {% set ns.at = target %}
+              {% endif %}
+            {% endfor %}
+            {{ ns.at }}

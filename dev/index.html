@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>e-ink card dev harness</title>
+    <style>
+      body {
+        margin: 0;
+        background: #4a4a4a;
+        font-family: Helvetica, Arial, sans-serif;
+        padding: 24px;
+      }
+      .label {
+        color: #fff;
+        font-size: 12px;
+        margin: 0 0 8px 2px;
+        opacity: 0.8;
+      }
+      /* The real panel: 800×480, white. Design against this exact frame. */
+      .panel {
+        width: 800px;
+        height: 480px;
+        background: #fff;
+        box-shadow: 0 0 0 1px #000;
+        position: relative;
+        overflow: hidden;
+      }
+      .slot-bottom {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="label" id="src">loading…</p>
+    <div class="panel">
+      <div class="slot-bottom">
+        <eink-price-card id="card"></eink-price-card>
+      </div>
+    </div>
+
+    <script type="module">
+      import "../dist/eink-dashboard-cards.js";
+
+      // Build a plausible Swedish quarter-hourly price day (96 points), matching
+      // the shape of sensor.greenely_prices.current_day_quarterly.
+      function mockHass() {
+        const hourly = [
+          1.39, 1.32, 1.24, 1.03, 0.89, 1.17, 1.52, 1.85, 1.69, 1.43, 1.27, 1.1, 0.95, 0.88,
+          0.84, 0.9, 1.12, 1.55, 1.95, 1.78, 1.42, 1.08, 0.72, 0.5,
+        ];
+        const now = new Date();
+        const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const date = midnight.toDateString();
+        const pts = [];
+        for (let h = 0; h < 24; h++) {
+          for (let q = 0; q < 4; q++) {
+            const t = new Date(midnight.getTime() + (h * 60 + q * 15) * 60000);
+            const jitter = (q - 1.5) * 0.04 + (Math.sin(h + q) * 0.03);
+            pts.push({
+              date,
+              time: `${String(h).padStart(2, "0")}:${String(q * 15).padStart(2, "0")}`,
+              start: t.toISOString(),
+              price: Math.max(0.1, +(hourly[h] + jitter).toFixed(4)),
+            });
+          }
+        }
+        return {
+          states: {
+            "sensor.greenely_prices": {
+              state: String(pts[Math.floor((now.getHours() * 60 + now.getMinutes()) / 15)].price),
+              attributes: {
+                unit_of_measurement: "SEK/kWh",
+                current_day_quarterly: pts,
+              },
+            },
+          },
+        };
+      }
+
+      async function loadHass() {
+        try {
+          const r = await fetch("./hass-snapshot.json");
+          if (r.ok) {
+            document.getElementById("src").textContent = "data: dev/hass-snapshot.json (real HA)";
+            return await r.json();
+          }
+        } catch {
+          /* no snapshot */
+        }
+        document.getElementById("src").textContent = "data: mock (run `npm run snapshot` for real data)";
+        return mockHass();
+      }
+
+      const card = document.getElementById("card");
+      card.setConfig({ entity: "sensor.greenely_prices", title: "Electricity" });
+      card.hass = await loadHass();
+    </script>
+  </body>
+</html>

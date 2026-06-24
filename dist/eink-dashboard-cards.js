@@ -1,12 +1,669 @@
 /* eink-dashboard-cards — built by esbuild */
-var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,Q=Symbol(),ft=new WeakMap,I=class{constructor(t,e,i){if(this._$cssResult$=!0,i!==Q)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o,e=this.t;if(J&&t===void 0){let i=e!==void 0&&e.length===1;i&&(t=ft.get(e)),t===void 0&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),i&&ft.set(e,t))}return t}toString(){return this.cssText}},u=r=>new I(typeof r=="string"?r:r+"",void 0,Q),w=(r,...t)=>{let e=r.length===1?r[0]:t.reduce((i,s,n)=>i+(o=>{if(o._$cssResult$===!0)return o.cssText;if(typeof o=="number")return o;throw Error("Value passed to 'css' function must be a 'css' function result: "+o+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(s)+r[n+1],r[0]);return new I(e,r,Q)},ut=(r,t)=>{if(J)r.adoptedStyleSheets=t.map(e=>e instanceof CSSStyleSheet?e:e.styleSheet);else for(let e of t){let i=document.createElement("style"),s=X.litNonce;s!==void 0&&i.setAttribute("nonce",s),i.textContent=e.cssText,r.appendChild(i)}},tt=J?r=>r:r=>r instanceof CSSStyleSheet?(t=>{let e="";for(let i of t.cssRules)e+=i.cssText;return u(e)})(r):r;var{is:Lt,defineProperty:Ut,getOwnPropertyDescriptor:Ot,getOwnPropertyNames:zt,getOwnPropertySymbols:It,getPrototypeOf:jt}=Object,S=globalThis,mt=S.trustedTypes,Bt=mt?mt.emptyScript:"",Vt=S.reactiveElementPolyfillSupport,j=(r,t)=>r,et={toAttribute(r,t){switch(t){case Boolean:r=r?Bt:null;break;case Object:case Array:r=r==null?r:JSON.stringify(r)}return r},fromAttribute(r,t){let e=r;switch(t){case Boolean:e=r!==null;break;case Number:e=r===null?null:Number(r);break;case Object:case Array:try{e=JSON.parse(r)}catch{e=null}}return e}},yt=(r,t)=>!Lt(r,t),gt={attribute:!0,type:String,converter:et,reflect:!1,useDefault:!1,hasChanged:yt};Symbol.metadata??(Symbol.metadata=Symbol("metadata")),S.litPropertyMetadata??(S.litPropertyMetadata=new WeakMap);var C=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??(this.l=[])).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=gt){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){let i=Symbol(),s=this.getPropertyDescriptor(t,i,e);s!==void 0&&Ut(this.prototype,t,s)}}static getPropertyDescriptor(t,e,i){let{get:s,set:n}=Ot(this.prototype,t)??{get(){return this[e]},set(o){this[e]=o}};return{get:s,set(o){let c=s?.call(this);n?.call(this,o),this.requestUpdate(t,c,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??gt}static _$Ei(){if(this.hasOwnProperty(j("elementProperties")))return;let t=jt(this);t.finalize(),t.l!==void 0&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(j("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(j("properties"))){let e=this.properties,i=[...zt(e),...It(e)];for(let s of i)this.createProperty(s,e[s])}let t=this[Symbol.metadata];if(t!==null){let e=litPropertyMetadata.get(t);if(e!==void 0)for(let[i,s]of e)this.elementProperties.set(i,s)}this._$Eh=new Map;for(let[e,i]of this.elementProperties){let s=this._$Eu(e,i);s!==void 0&&this._$Eh.set(s,e)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){let e=[];if(Array.isArray(t)){let i=new Set(t.flat(1/0).reverse());for(let s of i)e.unshift(tt(s))}else t!==void 0&&e.push(tt(t));return e}static _$Eu(t,e){let i=e.attribute;return i===!1?void 0:typeof i=="string"?i:typeof t=="string"?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??(this._$EO=new Set)).add(t),this.renderRoot!==void 0&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){let t=new Map,e=this.constructor.elementProperties;for(let i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){let t=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return ut(t,this.constructor.elementStyles),t}connectedCallback(){this.renderRoot??(this.renderRoot=this.createRenderRoot()),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){let i=this.constructor.elementProperties.get(t),s=this.constructor._$Eu(t,i);if(s!==void 0&&i.reflect===!0){let n=(i.converter?.toAttribute!==void 0?i.converter:et).toAttribute(e,i.type);this._$Em=t,n==null?this.removeAttribute(s):this.setAttribute(s,n),this._$Em=null}}_$AK(t,e){let i=this.constructor,s=i._$Eh.get(t);if(s!==void 0&&this._$Em!==s){let n=i.getPropertyOptions(s),o=typeof n.converter=="function"?{fromAttribute:n.converter}:n.converter?.fromAttribute!==void 0?n.converter:et;this._$Em=s;let c=o.fromAttribute(e,n.type);this[s]=c??this._$Ej?.get(s)??c,this._$Em=null}}requestUpdate(t,e,i,s=!1,n){if(t!==void 0){let o=this.constructor;if(s===!1&&(n=this[t]),i??(i=o.getPropertyOptions(t)),!((i.hasChanged??yt)(n,e)||i.useDefault&&i.reflect&&n===this._$Ej?.get(t)&&!this.hasAttribute(o._$Eu(t,i))))return;this.C(t,e,i)}this.isUpdatePending===!1&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:s,wrapped:n},o){i&&!(this._$Ej??(this._$Ej=new Map)).has(t)&&(this._$Ej.set(t,o??e??this[t]),n!==!0||o!==void 0)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),s===!0&&this._$Em!==t&&(this._$Eq??(this._$Eq=new Set)).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(e){Promise.reject(e)}let t=this.scheduleUpdate();return t!=null&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??(this.renderRoot=this.createRenderRoot()),this._$Ep){for(let[s,n]of this._$Ep)this[s]=n;this._$Ep=void 0}let i=this.constructor.elementProperties;if(i.size>0)for(let[s,n]of i){let{wrapped:o}=n,c=this[s];o!==!0||this._$AL.has(s)||c===void 0||this.C(s,void 0,n,c)}}let t=!1,e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(i=>i.hostUpdate?.()),this.update(e)):this._$EM()}catch(i){throw t=!1,this._$EM(),i}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(e=>e.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&(this._$Eq=this._$Eq.forEach(e=>this._$ET(e,this[e]))),this._$EM()}updated(t){}firstUpdated(t){}};C.elementStyles=[],C.shadowRootOptions={mode:"open"},C[j("elementProperties")]=new Map,C[j("finalized")]=new Map,Vt?.({ReactiveElement:C}),(S.reactiveElementVersions??(S.reactiveElementVersions=[])).push("2.1.2");var V=globalThis,vt=r=>r,Y=V.trustedTypes,$t=Y?Y.createPolicy("lit-html",{createHTML:r=>r}):void 0,At="$lit$",k=`lit$${Math.random().toFixed(9).slice(2)}$`,St="?"+k,Wt=`<${St}>`,T=document,W=()=>T.createComment(""),q=r=>r===null||typeof r!="object"&&typeof r!="function",lt=Array.isArray,qt=r=>lt(r)||typeof r?.[Symbol.iterator]=="function",it=`[ 	
-\f\r]`,B=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,_t=/-->/g,wt=/>/g,P=RegExp(`>|${it}(?:([^\\s"'>=/]+)(${it}*=${it}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`,"g"),xt=/'/g,bt=/"/g,kt=/^(?:script|style|textarea|title)$/i,ct=r=>(t,...e)=>({_$litType$:r,strings:t,values:e}),f=ct(1),$=ct(2),oe=ct(3),M=Symbol.for("lit-noChange"),p=Symbol.for("lit-nothing"),Ct=new WeakMap,H=T.createTreeWalker(T,129);function Et(r,t){if(!lt(r)||!r.hasOwnProperty("raw"))throw Error("invalid template strings array");return $t!==void 0?$t.createHTML(t):t}var Kt=(r,t)=>{let e=r.length-1,i=[],s,n=t===2?"<svg>":t===3?"<math>":"",o=B;for(let c=0;c<e;c++){let a=r[c],h,l,d=-1,m=0;for(;m<a.length&&(o.lastIndex=m,l=o.exec(a),l!==null);)m=o.lastIndex,o===B?l[1]==="!--"?o=_t:l[1]!==void 0?o=wt:l[2]!==void 0?(kt.test(l[2])&&(s=RegExp("</"+l[2],"g")),o=P):l[3]!==void 0&&(o=P):o===P?l[0]===">"?(o=s??B,d=-1):l[1]===void 0?d=-2:(d=o.lastIndex-l[2].length,h=l[1],o=l[3]===void 0?P:l[3]==='"'?bt:xt):o===bt||o===xt?o=P:o===_t||o===wt?o=B:(o=P,s=void 0);let v=o===P&&r[c+1].startsWith("/>")?" ":"";n+=o===B?a+Wt:d>=0?(i.push(h),a.slice(0,d)+At+a.slice(d)+k+v):a+k+(d===-2?c:v)}return[Et(r,n+(r[e]||"<?>")+(t===2?"</svg>":t===3?"</math>":"")),i]},K=class r{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let n=0,o=0,c=t.length-1,a=this.parts,[h,l]=Kt(t,e);if(this.el=r.createElement(h,i),H.currentNode=this.el.content,e===2||e===3){let d=this.el.content.firstChild;d.replaceWith(...d.childNodes)}for(;(s=H.nextNode())!==null&&a.length<c;){if(s.nodeType===1){if(s.hasAttributes())for(let d of s.getAttributeNames())if(d.endsWith(At)){let m=l[o++],v=s.getAttribute(d).split(k),E=/([.?@])?(.*)/.exec(m);a.push({type:1,index:n,name:E[2],strings:v,ctor:E[1]==="."?rt:E[1]==="?"?nt:E[1]==="@"?ot:N}),s.removeAttribute(d)}else d.startsWith(k)&&(a.push({type:6,index:n}),s.removeAttribute(d));if(kt.test(s.tagName)){let d=s.textContent.split(k),m=d.length-1;if(m>0){s.textContent=Y?Y.emptyScript:"";for(let v=0;v<m;v++)s.append(d[v],W()),H.nextNode(),a.push({type:2,index:++n});s.append(d[m],W())}}}else if(s.nodeType===8)if(s.data===St)a.push({type:2,index:n});else{let d=-1;for(;(d=s.data.indexOf(k,d+1))!==-1;)a.push({type:7,index:n}),d+=k.length-1}n++}}static createElement(t,e){let i=T.createElement("template");return i.innerHTML=t,i}};function D(r,t,e=r,i){if(t===M)return t;let s=i!==void 0?e._$Co?.[i]:e._$Cl,n=q(t)?void 0:t._$litDirective$;return s?.constructor!==n&&(s?._$AO?.(!1),n===void 0?s=void 0:(s=new n(r),s._$AT(r,e,i)),i!==void 0?(e._$Co??(e._$Co=[]))[i]=s:e._$Cl=s),s!==void 0&&(t=D(r,s._$AS(r,t.values),s,i)),t}var st=class{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){let{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??T).importNode(e,!0);H.currentNode=s;let n=H.nextNode(),o=0,c=0,a=i[0];for(;a!==void 0;){if(o===a.index){let h;a.type===2?h=new G(n,n.nextSibling,this,t):a.type===1?h=new a.ctor(n,a.name,a.strings,this,t):a.type===6&&(h=new at(n,this,t)),this._$AV.push(h),a=i[++c]}o!==a?.index&&(n=H.nextNode(),o++)}return H.currentNode=T,s}p(t){let e=0;for(let i of this._$AV)i!==void 0&&(i.strings!==void 0?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}},G=class r{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=p,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode,e=this._$AM;return e!==void 0&&t?.nodeType===11&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=D(this,t,e),q(t)?t===p||t==null||t===""?(this._$AH!==p&&this._$AR(),this._$AH=p):t!==this._$AH&&t!==M&&this._(t):t._$litType$!==void 0?this.$(t):t.nodeType!==void 0?this.T(t):qt(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==p&&q(this._$AH)?this._$AA.nextSibling.data=t:this.T(T.createTextNode(t)),this._$AH=t}$(t){let{values:e,_$litType$:i}=t,s=typeof i=="number"?this._$AC(t):(i.el===void 0&&(i.el=K.createElement(Et(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{let n=new st(s,this),o=n.u(this.options);n.p(e),this.T(o),this._$AH=n}}_$AC(t){let e=Ct.get(t.strings);return e===void 0&&Ct.set(t.strings,e=new K(t)),e}k(t){lt(this._$AH)||(this._$AH=[],this._$AR());let e=this._$AH,i,s=0;for(let n of t)s===e.length?e.push(i=new r(this.O(W()),this.O(W()),this,this.options)):i=e[s],i._$AI(n),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){let i=vt(t).nextSibling;vt(t).remove(),t=i}}setConnected(t){this._$AM===void 0&&(this._$Cv=t,this._$AP?.(t))}},N=class{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,n){this.type=1,this._$AH=p,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=n,i.length>2||i[0]!==""||i[1]!==""?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=p}_$AI(t,e=this,i,s){let n=this.strings,o=!1;if(n===void 0)t=D(this,t,e,0),o=!q(t)||t!==this._$AH&&t!==M,o&&(this._$AH=t);else{let c=t,a,h;for(t=n[0],a=0;a<n.length-1;a++)h=D(this,c[i+a],e,a),h===M&&(h=this._$AH[a]),o||(o=!q(h)||h!==this._$AH[a]),h===p?t=p:t!==p&&(t+=(h??"")+n[a+1]),this._$AH[a]=h}o&&!s&&this.j(t)}j(t){t===p?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}},rt=class extends N{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===p?void 0:t}},nt=class extends N{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==p)}},ot=class extends N{constructor(t,e,i,s,n){super(t,e,i,s,n),this.type=5}_$AI(t,e=this){if((t=D(this,t,e,0)??p)===M)return;let i=this._$AH,s=t===p&&i!==p||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,n=t!==p&&(i===p||s);s&&this.element.removeEventListener(this.name,this,i),n&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){typeof this._$AH=="function"?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}},at=class{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){D(this,t)}};var Gt=V.litHtmlPolyfillSupport;Gt?.(K,G),(V.litHtmlVersions??(V.litHtmlVersions=[])).push("3.3.3");var Pt=(r,t,e)=>{let i=e?.renderBefore??t,s=i._$litPart$;if(s===void 0){let n=e?.renderBefore??null;i._$litPart$=s=new G(t.insertBefore(W(),n),n,void 0,e??{})}return s._$AI(r),s};var F=globalThis,_=class extends C{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){var e;let t=super.createRenderRoot();return(e=this.renderOptions).renderBefore??(e.renderBefore=t.firstChild),t}update(t){let e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=Pt(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return M}};_._$litElement$=!0,_.finalized=!0,F.litElementHydrateSupport?.({LitElement:_});var Ft=F.litElementPolyfillSupport;Ft?.({LitElement:_});(F.litElementVersions??(F.litElementVersions=[])).push("4.2.2");function x(r){window.customCards=window.customCards??[],window.customCards.push({preview:!0,...r})}var y={black:"#000000",white:"#ffffff",red:"#ff0000",yellow:"#ffd400",blue:"#0000ff",green:"#008000"},Z={low:y.green,mid:y.yellow,high:y.red};var dt=96,Xt=r=>(r.start?new Date(r.start):new Date(`${r.date} ${r.time}`)).getTime(),Jt=r=>new Date(r).toLocaleDateString("en-GB",{weekday:"short"}),R=class extends _{constructor(){super(...arguments);this._config={}}setConfig(e){if(!e?.entity)throw new Error("eink-price-card: 'entity' is required");this._config={title:"Electricity",low_threshold:50,high_threshold:200,...e}}getCardSize(){return 3}series(){let e=this.hass?.states[this._config.entity];if(!e)return null;let i=(l,d)=>{let m=e.attributes[l],v=e.attributes[d];return m?.length?m:v??[]},s=i("current_day_quarterly","current_day"),n=i("next_day_quarterly","next_day");if(!s.length)return null;let o=this._config.low_threshold,c=this._config.high_threshold,a=(l,d)=>{let m=new Date(Xt(l)),v=Math.round(Number(l.price)*100);return{ms:m.getTime(),hour:m.getHours(),minute:m.getMinutes(),date:l.date,ore:v,day:d,level:v<o?"low":v>c?"high":"mid"}},h=[...s.map(l=>a(l,0)),...n.map(l=>a(l,1))];return{points:h,todayCount:s.length,max:Math.max(...h.map(l=>l.ore))}}cheapestWindow(e,i){if(i<=0||i>e.length)return-1;let s=e.slice(0,i).reduce((c,a)=>c+a.ore,0),n=s,o=0;for(let c=i;c<e.length;c++)s+=e[c].ore-e[c-i].ore,s<n&&(n=s,o=c-i+1);return o}render(){let e=this.series();if(!e)return f`<div class="card empty">No price data (${this._config.entity})</div>`;let{points:i,todayCount:s,max:n}=e,o=i.length,c=s>=96,a=g=>g/(o-1)*100,h=n<=200?50:100,l=[];for(let g=0;g<n;g+=h)l.push(g);let d=Date.now(),m=0;i.forEach((g,A)=>{g.day===0&&g.ms<=d&&(m=A)});let v=this._config.cheapest_window??(c?8:2),E=this.cheapestWindow(i,v),Dt=i.map((g,A)=>({i:A,p:g})).filter(({p:g})=>g.minute===0&&g.hour%6===0),Nt=Math.max(2,i[m].ore/n*100)/100*dt,Rt=Math.max(0,dt-Nt-5);return f`
+
+// node_modules/@lit/reactive-element/css-tag.js
+var t = globalThis;
+var e = t.ShadowRoot && (void 0 === t.ShadyCSS || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype;
+var s = /* @__PURE__ */ Symbol();
+var o = /* @__PURE__ */ new WeakMap();
+var n = class {
+  constructor(t3, e4, o5) {
+    if (this._$cssResult$ = true, o5 !== s) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    this.cssText = t3, this.t = e4;
+  }
+  get styleSheet() {
+    let t3 = this.o;
+    const s4 = this.t;
+    if (e && void 0 === t3) {
+      const e4 = void 0 !== s4 && 1 === s4.length;
+      e4 && (t3 = o.get(s4)), void 0 === t3 && ((this.o = t3 = new CSSStyleSheet()).replaceSync(this.cssText), e4 && o.set(s4, t3));
+    }
+    return t3;
+  }
+  toString() {
+    return this.cssText;
+  }
+};
+var r = (t3) => new n("string" == typeof t3 ? t3 : t3 + "", void 0, s);
+var i = (t3, ...e4) => {
+  const o5 = 1 === t3.length ? t3[0] : e4.reduce((e5, s4, o6) => e5 + ((t4) => {
+    if (true === t4._$cssResult$) return t4.cssText;
+    if ("number" == typeof t4) return t4;
+    throw Error("Value passed to 'css' function must be a 'css' function result: " + t4 + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
+  })(s4) + t3[o6 + 1], t3[0]);
+  return new n(o5, t3, s);
+};
+var S = (s4, o5) => {
+  if (e) s4.adoptedStyleSheets = o5.map((t3) => t3 instanceof CSSStyleSheet ? t3 : t3.styleSheet);
+  else for (const e4 of o5) {
+    const o6 = document.createElement("style"), n4 = t.litNonce;
+    void 0 !== n4 && o6.setAttribute("nonce", n4), o6.textContent = e4.cssText, s4.appendChild(o6);
+  }
+};
+var c = e ? (t3) => t3 : (t3) => t3 instanceof CSSStyleSheet ? ((t4) => {
+  let e4 = "";
+  for (const s4 of t4.cssRules) e4 += s4.cssText;
+  return r(e4);
+})(t3) : t3;
+
+// node_modules/@lit/reactive-element/reactive-element.js
+var { is: i2, defineProperty: e2, getOwnPropertyDescriptor: h, getOwnPropertyNames: r2, getOwnPropertySymbols: o2, getPrototypeOf: n2 } = Object;
+var a = globalThis;
+var c2 = a.trustedTypes;
+var l = c2 ? c2.emptyScript : "";
+var p = a.reactiveElementPolyfillSupport;
+var d = (t3, s4) => t3;
+var u = { toAttribute(t3, s4) {
+  switch (s4) {
+    case Boolean:
+      t3 = t3 ? l : null;
+      break;
+    case Object:
+    case Array:
+      t3 = null == t3 ? t3 : JSON.stringify(t3);
+  }
+  return t3;
+}, fromAttribute(t3, s4) {
+  let i5 = t3;
+  switch (s4) {
+    case Boolean:
+      i5 = null !== t3;
+      break;
+    case Number:
+      i5 = null === t3 ? null : Number(t3);
+      break;
+    case Object:
+    case Array:
+      try {
+        i5 = JSON.parse(t3);
+      } catch (t4) {
+        i5 = null;
+      }
+  }
+  return i5;
+} };
+var f = (t3, s4) => !i2(t3, s4);
+var b = { attribute: true, type: String, converter: u, reflect: false, useDefault: false, hasChanged: f };
+Symbol.metadata ?? (Symbol.metadata = /* @__PURE__ */ Symbol("metadata")), a.litPropertyMetadata ?? (a.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
+var y = class extends HTMLElement {
+  static addInitializer(t3) {
+    this._$Ei(), (this.l ?? (this.l = [])).push(t3);
+  }
+  static get observedAttributes() {
+    return this.finalize(), this._$Eh && [...this._$Eh.keys()];
+  }
+  static createProperty(t3, s4 = b) {
+    if (s4.state && (s4.attribute = false), this._$Ei(), this.prototype.hasOwnProperty(t3) && ((s4 = Object.create(s4)).wrapped = true), this.elementProperties.set(t3, s4), !s4.noAccessor) {
+      const i5 = /* @__PURE__ */ Symbol(), h3 = this.getPropertyDescriptor(t3, i5, s4);
+      void 0 !== h3 && e2(this.prototype, t3, h3);
+    }
+  }
+  static getPropertyDescriptor(t3, s4, i5) {
+    const { get: e4, set: r4 } = h(this.prototype, t3) ?? { get() {
+      return this[s4];
+    }, set(t4) {
+      this[s4] = t4;
+    } };
+    return { get: e4, set(s5) {
+      const h3 = e4?.call(this);
+      r4?.call(this, s5), this.requestUpdate(t3, h3, i5);
+    }, configurable: true, enumerable: true };
+  }
+  static getPropertyOptions(t3) {
+    return this.elementProperties.get(t3) ?? b;
+  }
+  static _$Ei() {
+    if (this.hasOwnProperty(d("elementProperties"))) return;
+    const t3 = n2(this);
+    t3.finalize(), void 0 !== t3.l && (this.l = [...t3.l]), this.elementProperties = new Map(t3.elementProperties);
+  }
+  static finalize() {
+    if (this.hasOwnProperty(d("finalized"))) return;
+    if (this.finalized = true, this._$Ei(), this.hasOwnProperty(d("properties"))) {
+      const t4 = this.properties, s4 = [...r2(t4), ...o2(t4)];
+      for (const i5 of s4) this.createProperty(i5, t4[i5]);
+    }
+    const t3 = this[Symbol.metadata];
+    if (null !== t3) {
+      const s4 = litPropertyMetadata.get(t3);
+      if (void 0 !== s4) for (const [t4, i5] of s4) this.elementProperties.set(t4, i5);
+    }
+    this._$Eh = /* @__PURE__ */ new Map();
+    for (const [t4, s4] of this.elementProperties) {
+      const i5 = this._$Eu(t4, s4);
+      void 0 !== i5 && this._$Eh.set(i5, t4);
+    }
+    this.elementStyles = this.finalizeStyles(this.styles);
+  }
+  static finalizeStyles(s4) {
+    const i5 = [];
+    if (Array.isArray(s4)) {
+      const e4 = new Set(s4.flat(1 / 0).reverse());
+      for (const s5 of e4) i5.unshift(c(s5));
+    } else void 0 !== s4 && i5.push(c(s4));
+    return i5;
+  }
+  static _$Eu(t3, s4) {
+    const i5 = s4.attribute;
+    return false === i5 ? void 0 : "string" == typeof i5 ? i5 : "string" == typeof t3 ? t3.toLowerCase() : void 0;
+  }
+  constructor() {
+    super(), this._$Ep = void 0, this.isUpdatePending = false, this.hasUpdated = false, this._$Em = null, this._$Ev();
+  }
+  _$Ev() {
+    this._$ES = new Promise((t3) => this.enableUpdating = t3), this._$AL = /* @__PURE__ */ new Map(), this._$E_(), this.requestUpdate(), this.constructor.l?.forEach((t3) => t3(this));
+  }
+  addController(t3) {
+    (this._$EO ?? (this._$EO = /* @__PURE__ */ new Set())).add(t3), void 0 !== this.renderRoot && this.isConnected && t3.hostConnected?.();
+  }
+  removeController(t3) {
+    this._$EO?.delete(t3);
+  }
+  _$E_() {
+    const t3 = /* @__PURE__ */ new Map(), s4 = this.constructor.elementProperties;
+    for (const i5 of s4.keys()) this.hasOwnProperty(i5) && (t3.set(i5, this[i5]), delete this[i5]);
+    t3.size > 0 && (this._$Ep = t3);
+  }
+  createRenderRoot() {
+    const t3 = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
+    return S(t3, this.constructor.elementStyles), t3;
+  }
+  connectedCallback() {
+    this.renderRoot ?? (this.renderRoot = this.createRenderRoot()), this.enableUpdating(true), this._$EO?.forEach((t3) => t3.hostConnected?.());
+  }
+  enableUpdating(t3) {
+  }
+  disconnectedCallback() {
+    this._$EO?.forEach((t3) => t3.hostDisconnected?.());
+  }
+  attributeChangedCallback(t3, s4, i5) {
+    this._$AK(t3, i5);
+  }
+  _$ET(t3, s4) {
+    const i5 = this.constructor.elementProperties.get(t3), e4 = this.constructor._$Eu(t3, i5);
+    if (void 0 !== e4 && true === i5.reflect) {
+      const h3 = (void 0 !== i5.converter?.toAttribute ? i5.converter : u).toAttribute(s4, i5.type);
+      this._$Em = t3, null == h3 ? this.removeAttribute(e4) : this.setAttribute(e4, h3), this._$Em = null;
+    }
+  }
+  _$AK(t3, s4) {
+    const i5 = this.constructor, e4 = i5._$Eh.get(t3);
+    if (void 0 !== e4 && this._$Em !== e4) {
+      const t4 = i5.getPropertyOptions(e4), h3 = "function" == typeof t4.converter ? { fromAttribute: t4.converter } : void 0 !== t4.converter?.fromAttribute ? t4.converter : u;
+      this._$Em = e4;
+      const r4 = h3.fromAttribute(s4, t4.type);
+      this[e4] = r4 ?? this._$Ej?.get(e4) ?? r4, this._$Em = null;
+    }
+  }
+  requestUpdate(t3, s4, i5, e4 = false, h3) {
+    if (void 0 !== t3) {
+      const r4 = this.constructor;
+      if (false === e4 && (h3 = this[t3]), i5 ?? (i5 = r4.getPropertyOptions(t3)), !((i5.hasChanged ?? f)(h3, s4) || i5.useDefault && i5.reflect && h3 === this._$Ej?.get(t3) && !this.hasAttribute(r4._$Eu(t3, i5)))) return;
+      this.C(t3, s4, i5);
+    }
+    false === this.isUpdatePending && (this._$ES = this._$EP());
+  }
+  C(t3, s4, { useDefault: i5, reflect: e4, wrapped: h3 }, r4) {
+    i5 && !(this._$Ej ?? (this._$Ej = /* @__PURE__ */ new Map())).has(t3) && (this._$Ej.set(t3, r4 ?? s4 ?? this[t3]), true !== h3 || void 0 !== r4) || (this._$AL.has(t3) || (this.hasUpdated || i5 || (s4 = void 0), this._$AL.set(t3, s4)), true === e4 && this._$Em !== t3 && (this._$Eq ?? (this._$Eq = /* @__PURE__ */ new Set())).add(t3));
+  }
+  async _$EP() {
+    this.isUpdatePending = true;
+    try {
+      await this._$ES;
+    } catch (t4) {
+      Promise.reject(t4);
+    }
+    const t3 = this.scheduleUpdate();
+    return null != t3 && await t3, !this.isUpdatePending;
+  }
+  scheduleUpdate() {
+    return this.performUpdate();
+  }
+  performUpdate() {
+    if (!this.isUpdatePending) return;
+    if (!this.hasUpdated) {
+      if (this.renderRoot ?? (this.renderRoot = this.createRenderRoot()), this._$Ep) {
+        for (const [t5, s5] of this._$Ep) this[t5] = s5;
+        this._$Ep = void 0;
+      }
+      const t4 = this.constructor.elementProperties;
+      if (t4.size > 0) for (const [s5, i5] of t4) {
+        const { wrapped: t5 } = i5, e4 = this[s5];
+        true !== t5 || this._$AL.has(s5) || void 0 === e4 || this.C(s5, void 0, i5, e4);
+      }
+    }
+    let t3 = false;
+    const s4 = this._$AL;
+    try {
+      t3 = this.shouldUpdate(s4), t3 ? (this.willUpdate(s4), this._$EO?.forEach((t4) => t4.hostUpdate?.()), this.update(s4)) : this._$EM();
+    } catch (s5) {
+      throw t3 = false, this._$EM(), s5;
+    }
+    t3 && this._$AE(s4);
+  }
+  willUpdate(t3) {
+  }
+  _$AE(t3) {
+    this._$EO?.forEach((t4) => t4.hostUpdated?.()), this.hasUpdated || (this.hasUpdated = true, this.firstUpdated(t3)), this.updated(t3);
+  }
+  _$EM() {
+    this._$AL = /* @__PURE__ */ new Map(), this.isUpdatePending = false;
+  }
+  get updateComplete() {
+    return this.getUpdateComplete();
+  }
+  getUpdateComplete() {
+    return this._$ES;
+  }
+  shouldUpdate(t3) {
+    return true;
+  }
+  update(t3) {
+    this._$Eq && (this._$Eq = this._$Eq.forEach((t4) => this._$ET(t4, this[t4]))), this._$EM();
+  }
+  updated(t3) {
+  }
+  firstUpdated(t3) {
+  }
+};
+y.elementStyles = [], y.shadowRootOptions = { mode: "open" }, y[d("elementProperties")] = /* @__PURE__ */ new Map(), y[d("finalized")] = /* @__PURE__ */ new Map(), p?.({ ReactiveElement: y }), (a.reactiveElementVersions ?? (a.reactiveElementVersions = [])).push("2.1.2");
+
+// node_modules/lit-html/lit-html.js
+var t2 = globalThis;
+var i3 = (t3) => t3;
+var s2 = t2.trustedTypes;
+var e3 = s2 ? s2.createPolicy("lit-html", { createHTML: (t3) => t3 }) : void 0;
+var h2 = "$lit$";
+var o3 = `lit$${Math.random().toFixed(9).slice(2)}$`;
+var n3 = "?" + o3;
+var r3 = `<${n3}>`;
+var l2 = document;
+var c3 = () => l2.createComment("");
+var a2 = (t3) => null === t3 || "object" != typeof t3 && "function" != typeof t3;
+var u2 = Array.isArray;
+var d2 = (t3) => u2(t3) || "function" == typeof t3?.[Symbol.iterator];
+var f2 = "[ 	\n\f\r]";
+var v = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
+var _ = /-->/g;
+var m = />/g;
+var p2 = RegExp(`>|${f2}(?:([^\\s"'>=/]+)(${f2}*=${f2}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g");
+var g = /'/g;
+var $ = /"/g;
+var y2 = /^(?:script|style|textarea|title)$/i;
+var x = (t3) => (i5, ...s4) => ({ _$litType$: t3, strings: i5, values: s4 });
+var b2 = x(1);
+var w = x(2);
+var T = x(3);
+var E = /* @__PURE__ */ Symbol.for("lit-noChange");
+var A = /* @__PURE__ */ Symbol.for("lit-nothing");
+var C = /* @__PURE__ */ new WeakMap();
+var P = l2.createTreeWalker(l2, 129);
+function V(t3, i5) {
+  if (!u2(t3) || !t3.hasOwnProperty("raw")) throw Error("invalid template strings array");
+  return void 0 !== e3 ? e3.createHTML(i5) : i5;
+}
+var N = (t3, i5) => {
+  const s4 = t3.length - 1, e4 = [];
+  let n4, l3 = 2 === i5 ? "<svg>" : 3 === i5 ? "<math>" : "", c4 = v;
+  for (let i6 = 0; i6 < s4; i6++) {
+    const s5 = t3[i6];
+    let a3, u3, d3 = -1, f3 = 0;
+    for (; f3 < s5.length && (c4.lastIndex = f3, u3 = c4.exec(s5), null !== u3); ) f3 = c4.lastIndex, c4 === v ? "!--" === u3[1] ? c4 = _ : void 0 !== u3[1] ? c4 = m : void 0 !== u3[2] ? (y2.test(u3[2]) && (n4 = RegExp("</" + u3[2], "g")), c4 = p2) : void 0 !== u3[3] && (c4 = p2) : c4 === p2 ? ">" === u3[0] ? (c4 = n4 ?? v, d3 = -1) : void 0 === u3[1] ? d3 = -2 : (d3 = c4.lastIndex - u3[2].length, a3 = u3[1], c4 = void 0 === u3[3] ? p2 : '"' === u3[3] ? $ : g) : c4 === $ || c4 === g ? c4 = p2 : c4 === _ || c4 === m ? c4 = v : (c4 = p2, n4 = void 0);
+    const x2 = c4 === p2 && t3[i6 + 1].startsWith("/>") ? " " : "";
+    l3 += c4 === v ? s5 + r3 : d3 >= 0 ? (e4.push(a3), s5.slice(0, d3) + h2 + s5.slice(d3) + o3 + x2) : s5 + o3 + (-2 === d3 ? i6 : x2);
+  }
+  return [V(t3, l3 + (t3[s4] || "<?>") + (2 === i5 ? "</svg>" : 3 === i5 ? "</math>" : "")), e4];
+};
+var S2 = class _S {
+  constructor({ strings: t3, _$litType$: i5 }, e4) {
+    let r4;
+    this.parts = [];
+    let l3 = 0, a3 = 0;
+    const u3 = t3.length - 1, d3 = this.parts, [f3, v2] = N(t3, i5);
+    if (this.el = _S.createElement(f3, e4), P.currentNode = this.el.content, 2 === i5 || 3 === i5) {
+      const t4 = this.el.content.firstChild;
+      t4.replaceWith(...t4.childNodes);
+    }
+    for (; null !== (r4 = P.nextNode()) && d3.length < u3; ) {
+      if (1 === r4.nodeType) {
+        if (r4.hasAttributes()) for (const t4 of r4.getAttributeNames()) if (t4.endsWith(h2)) {
+          const i6 = v2[a3++], s4 = r4.getAttribute(t4).split(o3), e5 = /([.?@])?(.*)/.exec(i6);
+          d3.push({ type: 1, index: l3, name: e5[2], strings: s4, ctor: "." === e5[1] ? I : "?" === e5[1] ? L : "@" === e5[1] ? z : H }), r4.removeAttribute(t4);
+        } else t4.startsWith(o3) && (d3.push({ type: 6, index: l3 }), r4.removeAttribute(t4));
+        if (y2.test(r4.tagName)) {
+          const t4 = r4.textContent.split(o3), i6 = t4.length - 1;
+          if (i6 > 0) {
+            r4.textContent = s2 ? s2.emptyScript : "";
+            for (let s4 = 0; s4 < i6; s4++) r4.append(t4[s4], c3()), P.nextNode(), d3.push({ type: 2, index: ++l3 });
+            r4.append(t4[i6], c3());
+          }
+        }
+      } else if (8 === r4.nodeType) if (r4.data === n3) d3.push({ type: 2, index: l3 });
+      else {
+        let t4 = -1;
+        for (; -1 !== (t4 = r4.data.indexOf(o3, t4 + 1)); ) d3.push({ type: 7, index: l3 }), t4 += o3.length - 1;
+      }
+      l3++;
+    }
+  }
+  static createElement(t3, i5) {
+    const s4 = l2.createElement("template");
+    return s4.innerHTML = t3, s4;
+  }
+};
+function M(t3, i5, s4 = t3, e4) {
+  if (i5 === E) return i5;
+  let h3 = void 0 !== e4 ? s4._$Co?.[e4] : s4._$Cl;
+  const o5 = a2(i5) ? void 0 : i5._$litDirective$;
+  return h3?.constructor !== o5 && (h3?._$AO?.(false), void 0 === o5 ? h3 = void 0 : (h3 = new o5(t3), h3._$AT(t3, s4, e4)), void 0 !== e4 ? (s4._$Co ?? (s4._$Co = []))[e4] = h3 : s4._$Cl = h3), void 0 !== h3 && (i5 = M(t3, h3._$AS(t3, i5.values), h3, e4)), i5;
+}
+var R = class {
+  constructor(t3, i5) {
+    this._$AV = [], this._$AN = void 0, this._$AD = t3, this._$AM = i5;
+  }
+  get parentNode() {
+    return this._$AM.parentNode;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  u(t3) {
+    const { el: { content: i5 }, parts: s4 } = this._$AD, e4 = (t3?.creationScope ?? l2).importNode(i5, true);
+    P.currentNode = e4;
+    let h3 = P.nextNode(), o5 = 0, n4 = 0, r4 = s4[0];
+    for (; void 0 !== r4; ) {
+      if (o5 === r4.index) {
+        let i6;
+        2 === r4.type ? i6 = new k(h3, h3.nextSibling, this, t3) : 1 === r4.type ? i6 = new r4.ctor(h3, r4.name, r4.strings, this, t3) : 6 === r4.type && (i6 = new Z(h3, this, t3)), this._$AV.push(i6), r4 = s4[++n4];
+      }
+      o5 !== r4?.index && (h3 = P.nextNode(), o5++);
+    }
+    return P.currentNode = l2, e4;
+  }
+  p(t3) {
+    let i5 = 0;
+    for (const s4 of this._$AV) void 0 !== s4 && (void 0 !== s4.strings ? (s4._$AI(t3, s4, i5), i5 += s4.strings.length - 2) : s4._$AI(t3[i5])), i5++;
+  }
+};
+var k = class _k {
+  get _$AU() {
+    return this._$AM?._$AU ?? this._$Cv;
+  }
+  constructor(t3, i5, s4, e4) {
+    this.type = 2, this._$AH = A, this._$AN = void 0, this._$AA = t3, this._$AB = i5, this._$AM = s4, this.options = e4, this._$Cv = e4?.isConnected ?? true;
+  }
+  get parentNode() {
+    let t3 = this._$AA.parentNode;
+    const i5 = this._$AM;
+    return void 0 !== i5 && 11 === t3?.nodeType && (t3 = i5.parentNode), t3;
+  }
+  get startNode() {
+    return this._$AA;
+  }
+  get endNode() {
+    return this._$AB;
+  }
+  _$AI(t3, i5 = this) {
+    t3 = M(this, t3, i5), a2(t3) ? t3 === A || null == t3 || "" === t3 ? (this._$AH !== A && this._$AR(), this._$AH = A) : t3 !== this._$AH && t3 !== E && this._(t3) : void 0 !== t3._$litType$ ? this.$(t3) : void 0 !== t3.nodeType ? this.T(t3) : d2(t3) ? this.k(t3) : this._(t3);
+  }
+  O(t3) {
+    return this._$AA.parentNode.insertBefore(t3, this._$AB);
+  }
+  T(t3) {
+    this._$AH !== t3 && (this._$AR(), this._$AH = this.O(t3));
+  }
+  _(t3) {
+    this._$AH !== A && a2(this._$AH) ? this._$AA.nextSibling.data = t3 : this.T(l2.createTextNode(t3)), this._$AH = t3;
+  }
+  $(t3) {
+    const { values: i5, _$litType$: s4 } = t3, e4 = "number" == typeof s4 ? this._$AC(t3) : (void 0 === s4.el && (s4.el = S2.createElement(V(s4.h, s4.h[0]), this.options)), s4);
+    if (this._$AH?._$AD === e4) this._$AH.p(i5);
+    else {
+      const t4 = new R(e4, this), s5 = t4.u(this.options);
+      t4.p(i5), this.T(s5), this._$AH = t4;
+    }
+  }
+  _$AC(t3) {
+    let i5 = C.get(t3.strings);
+    return void 0 === i5 && C.set(t3.strings, i5 = new S2(t3)), i5;
+  }
+  k(t3) {
+    u2(this._$AH) || (this._$AH = [], this._$AR());
+    const i5 = this._$AH;
+    let s4, e4 = 0;
+    for (const h3 of t3) e4 === i5.length ? i5.push(s4 = new _k(this.O(c3()), this.O(c3()), this, this.options)) : s4 = i5[e4], s4._$AI(h3), e4++;
+    e4 < i5.length && (this._$AR(s4 && s4._$AB.nextSibling, e4), i5.length = e4);
+  }
+  _$AR(t3 = this._$AA.nextSibling, s4) {
+    for (this._$AP?.(false, true, s4); t3 !== this._$AB; ) {
+      const s5 = i3(t3).nextSibling;
+      i3(t3).remove(), t3 = s5;
+    }
+  }
+  setConnected(t3) {
+    void 0 === this._$AM && (this._$Cv = t3, this._$AP?.(t3));
+  }
+};
+var H = class {
+  get tagName() {
+    return this.element.tagName;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  constructor(t3, i5, s4, e4, h3) {
+    this.type = 1, this._$AH = A, this._$AN = void 0, this.element = t3, this.name = i5, this._$AM = e4, this.options = h3, s4.length > 2 || "" !== s4[0] || "" !== s4[1] ? (this._$AH = Array(s4.length - 1).fill(new String()), this.strings = s4) : this._$AH = A;
+  }
+  _$AI(t3, i5 = this, s4, e4) {
+    const h3 = this.strings;
+    let o5 = false;
+    if (void 0 === h3) t3 = M(this, t3, i5, 0), o5 = !a2(t3) || t3 !== this._$AH && t3 !== E, o5 && (this._$AH = t3);
+    else {
+      const e5 = t3;
+      let n4, r4;
+      for (t3 = h3[0], n4 = 0; n4 < h3.length - 1; n4++) r4 = M(this, e5[s4 + n4], i5, n4), r4 === E && (r4 = this._$AH[n4]), o5 || (o5 = !a2(r4) || r4 !== this._$AH[n4]), r4 === A ? t3 = A : t3 !== A && (t3 += (r4 ?? "") + h3[n4 + 1]), this._$AH[n4] = r4;
+    }
+    o5 && !e4 && this.j(t3);
+  }
+  j(t3) {
+    t3 === A ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t3 ?? "");
+  }
+};
+var I = class extends H {
+  constructor() {
+    super(...arguments), this.type = 3;
+  }
+  j(t3) {
+    this.element[this.name] = t3 === A ? void 0 : t3;
+  }
+};
+var L = class extends H {
+  constructor() {
+    super(...arguments), this.type = 4;
+  }
+  j(t3) {
+    this.element.toggleAttribute(this.name, !!t3 && t3 !== A);
+  }
+};
+var z = class extends H {
+  constructor(t3, i5, s4, e4, h3) {
+    super(t3, i5, s4, e4, h3), this.type = 5;
+  }
+  _$AI(t3, i5 = this) {
+    if ((t3 = M(this, t3, i5, 0) ?? A) === E) return;
+    const s4 = this._$AH, e4 = t3 === A && s4 !== A || t3.capture !== s4.capture || t3.once !== s4.once || t3.passive !== s4.passive, h3 = t3 !== A && (s4 === A || e4);
+    e4 && this.element.removeEventListener(this.name, this, s4), h3 && this.element.addEventListener(this.name, this, t3), this._$AH = t3;
+  }
+  handleEvent(t3) {
+    "function" == typeof this._$AH ? this._$AH.call(this.options?.host ?? this.element, t3) : this._$AH.handleEvent(t3);
+  }
+};
+var Z = class {
+  constructor(t3, i5, s4) {
+    this.element = t3, this.type = 6, this._$AN = void 0, this._$AM = i5, this.options = s4;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AI(t3) {
+    M(this, t3);
+  }
+};
+var B = t2.litHtmlPolyfillSupport;
+B?.(S2, k), (t2.litHtmlVersions ?? (t2.litHtmlVersions = [])).push("3.3.3");
+var D = (t3, i5, s4) => {
+  const e4 = s4?.renderBefore ?? i5;
+  let h3 = e4._$litPart$;
+  if (void 0 === h3) {
+    const t4 = s4?.renderBefore ?? null;
+    e4._$litPart$ = h3 = new k(i5.insertBefore(c3(), t4), t4, void 0, s4 ?? {});
+  }
+  return h3._$AI(t3), h3;
+};
+
+// node_modules/lit-element/lit-element.js
+var s3 = globalThis;
+var i4 = class extends y {
+  constructor() {
+    super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
+  }
+  createRenderRoot() {
+    var _a;
+    const t3 = super.createRenderRoot();
+    return (_a = this.renderOptions).renderBefore ?? (_a.renderBefore = t3.firstChild), t3;
+  }
+  update(t3) {
+    const r4 = this.render();
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t3), this._$Do = D(r4, this.renderRoot, this.renderOptions);
+  }
+  connectedCallback() {
+    super.connectedCallback(), this._$Do?.setConnected(true);
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback(), this._$Do?.setConnected(false);
+  }
+  render() {
+    return E;
+  }
+};
+i4._$litElement$ = true, i4["finalized"] = true, s3.litElementHydrateSupport?.({ LitElement: i4 });
+var o4 = s3.litElementPolyfillSupport;
+o4?.({ LitElement: i4 });
+(s3.litElementVersions ?? (s3.litElementVersions = [])).push("4.2.2");
+
+// src/shared/hass.ts
+function registerCard(card) {
+  window.customCards = window.customCards ?? [];
+  window.customCards.push({ preview: true, ...card });
+}
+
+// src/shared/palette.ts
+var INK = {
+  black: "#000000",
+  white: "#ffffff",
+  red: "#ff0000",
+  yellow: "#ffd400",
+  // slightly deepened so it survives dithering as "yellow", not near-white
+  blue: "#0000ff",
+  green: "#008000"
+};
+var LEVEL_INK = {
+  low: INK.green,
+  mid: INK.yellow,
+  high: INK.red
+};
+
+// src/cards/price-chart-card.ts
+var BARS_PX = 96;
+var isoOf = (p3) => (p3.start ? new Date(p3.start) : /* @__PURE__ */ new Date(`${p3.date} ${p3.time}`)).getTime();
+var weekday = (date) => new Date(date).toLocaleDateString("en-GB", { weekday: "short" });
+var EinkPriceCard = class extends i4 {
+  constructor() {
+    super(...arguments);
+    this._config = {};
+  }
+  setConfig(config) {
+    if (!config?.entity) throw new Error("eink-price-card: 'entity' is required");
+    this._config = { title: "Electricity", low_threshold: 50, high_threshold: 200, ...config };
+  }
+  getCardSize() {
+    return 3;
+  }
+  series() {
+    const ent = this.hass?.states[this._config.entity];
+    if (!ent) return null;
+    const pick = (q, h3) => {
+      const quarterly = ent.attributes[q];
+      const hourly = ent.attributes[h3];
+      return quarterly?.length ? quarterly : hourly ?? [];
+    };
+    const today = pick("current_day_quarterly", "current_day");
+    const tomorrow = pick("next_day_quarterly", "next_day");
+    if (!today.length) return null;
+    const lowT = this._config.low_threshold;
+    const highT = this._config.high_threshold;
+    const toPoint = (p3, day) => {
+      const d3 = new Date(isoOf(p3));
+      const ore = Math.round(Number(p3.price) * 100);
+      return {
+        ms: d3.getTime(),
+        hour: d3.getHours(),
+        minute: d3.getMinutes(),
+        date: p3.date,
+        ore,
+        day,
+        level: ore < lowT ? "low" : ore > highT ? "high" : "mid"
+      };
+    };
+    const points = [
+      ...today.map((p3) => toPoint(p3, 0)),
+      ...tomorrow.map((p3) => toPoint(p3, 1))
+    ];
+    return { points, todayCount: today.length, max: Math.max(...points.map((p3) => p3.ore)) };
+  }
+  /** Start index of the cheapest contiguous window of length w (or -1). */
+  cheapestWindow(points, w2) {
+    if (w2 <= 0 || w2 > points.length) return -1;
+    let sum = points.slice(0, w2).reduce((a3, p3) => a3 + p3.ore, 0);
+    let best = sum;
+    let bestAt = 0;
+    for (let i5 = w2; i5 < points.length; i5++) {
+      sum += points[i5].ore - points[i5 - w2].ore;
+      if (sum < best) {
+        best = sum;
+        bestAt = i5 - w2 + 1;
+      }
+    }
+    return bestAt;
+  }
+  render() {
+    const data = this.series();
+    if (!data) {
+      return b2`<div class="card empty">No price data (${this._config.entity})</div>`;
+    }
+    const { points, todayCount, max } = data;
+    const n4 = points.length;
+    const quarter = todayCount >= 96;
+    const pct = (i5) => i5 / (n4 - 1) * 100;
+    const step = max <= 200 ? 50 : 100;
+    const yticks = [];
+    for (let v2 = 0; v2 < max; v2 += step) yticks.push(v2);
+    const now = Date.now();
+    let nowIdx = 0;
+    points.forEach((p3, i5) => {
+      if (p3.day === 0 && p3.ms <= now) nowIdx = i5;
+    });
+    const w2 = this._config.cheapest_window ?? (quarter ? 8 : 2);
+    const cheapAt = this.cheapestWindow(points, w2);
+    const xticks = points.map((p3, i5) => ({ i: i5, p: p3 })).filter(({ p: p3 }) => p3.minute === 0 && p3.hour % 6 === 0);
+    const nowBarPx = Math.max(2, points[nowIdx].ore / max * 100) / 100 * BARS_PX;
+    const nowLineH = Math.max(0, BARS_PX - nowBarPx - 5);
+    return b2`
       <div class="card">
         <div class="head">
           <span class="title">${this._config.title}</span>
           <span class="now">
-            <span class="now-label">Now</span>${i[m].ore}
+            <span class="now-label">Now</span>${points[nowIdx].ore}
             <small>öre/kWh</small>
           </span>
         </div>
@@ -14,36 +671,51 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
           <div class="row">
             <div class="plot">
               <div class="bars">
-                ${i.map(g=>f`<div class="bar ${g.level}" style="height:${Math.max(2,g.ore/n*100)}%"></div>`)}
+                ${points.map(
+      (p3) => b2`<div class="bar ${p3.level}" style="height:${Math.max(2, p3.ore / max * 100)}%"></div>`
+    )}
               </div>
-              <div class="now-line" style="left:${a(m)}%;height:${Rt}px"></div>
-              ${s<o?f`<div class="divider" style="left:${a(s-.5)}%"></div>`:p}
+              <div class="now-line" style="left:${pct(nowIdx)}%;height:${nowLineH}px"></div>
+              ${todayCount < n4 ? b2`<div class="divider" style="left:${pct(todayCount - 0.5)}%"></div>` : A}
             </div>
             <div class="yaxis">
-              ${l.map(g=>f`<span class="ylabel" style="bottom:${g/n*100}%">${g}</span>`)}
+              ${yticks.map(
+      (v2) => b2`<span class="ylabel" style="bottom:${v2 / max * 100}%">${v2}</span>`
+    )}
             </div>
           </div>
           <div class="marks">
-            ${E>=0?f`<div
+            ${cheapAt >= 0 ? b2`<div
                   class="window"
-                  style="left:${a(E)}%;width:${(v-1)/(o-1)*100}%"
-                ></div>`:p}
+                  style="left:${pct(cheapAt)}%;width:${(w2 - 1) / (n4 - 1) * 100}%"
+                ></div>` : A}
           </div>
           <div class="axis">
-            ${Dt.map(({i:g,p:A})=>f`<span class="${A.hour===0?"day":""}" style="left:${a(g)}%"
-                  >${A.hour===0?Jt(A.date):String(A.hour).padStart(2,"0")}</span
-                >`)}
+            ${xticks.map(
+      ({ i: i5, p: p3 }, idx) => b2`<span
+                  class="${p3.hour === 0 ? "day" : ""} ${idx === 0 ? "edge-left" : ""}"
+                  style="left:${pct(i5)}%"
+                  >${p3.hour === 0 ? weekday(p3.date) : String(p3.hour).padStart(2, "0")}</span
+                >`
+    )}
           </div>
         </div>
       </div>
-    `}};R.properties={hass:{attribute:!1},_config:{state:!0}},R.styles=w`
+    `;
+  }
+};
+EinkPriceCard.properties = {
+  hass: { attribute: false },
+  _config: { state: true }
+};
+EinkPriceCard.styles = i`
     :host {
-      --ink: ${u(y.black)};
-      --paper: ${u(y.white)};
-      --low: ${u(Z.low)};
-      --mid: ${u(Z.mid)};
-      --high: ${u(Z.high)};
-      --accent: ${u(y.blue)};
+      --ink: ${r(INK.black)};
+      --paper: ${r(INK.white)};
+      --low: ${r(LEVEL_INK.low)};
+      --mid: ${r(LEVEL_INK.mid)};
+      --high: ${r(LEVEL_INK.high)};
+      --accent: ${r(INK.blue)};
       display: block;
     }
     .card {
@@ -91,7 +763,7 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
     .plot {
       position: relative;
       flex: 1 1 auto;
-      height: ${dt}px;
+      height: ${BARS_PX}px;
       border-bottom: 2px solid var(--ink);
     }
     .bars {
@@ -183,70 +855,170 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
       font-weight: 800;
       text-transform: uppercase;
     }
-  `;x({type:"eink-price-card",name:"E-ink Price Card",description:"Electricity price bars (\xF6re/kWh) coloured by fixed thresholds, for the e-ink panel."});var b=(r="var(--ink)")=>$`
-  <g fill=${r}>
+    /* Keep the first label from running off the left edge. */
+    .axis span.edge-left {
+      transform: translateX(0);
+    }
+  `;
+registerCard({
+  type: "eink-price-card",
+  name: "E-ink Price Card",
+  description: "Electricity price bars (\xF6re/kWh) coloured by fixed thresholds, for the e-ink panel."
+});
+
+// src/shared/weather-icons.ts
+var cloud = (fill = "var(--ink)") => w`
+  <g fill=${fill}>
     <circle cx="24" cy="32" r="11" />
     <circle cx="37" cy="24" r="14" />
     <circle cx="49" cy="32" r="10" />
     <rect x="22" y="30" width="29" height="12" rx="3" />
-  </g>`,Ht=(r=32,t=22,e=11)=>$`
+  </g>`;
+var sun = (cx = 32, cy = 22, r4 = 11) => w`
   <g stroke="var(--sun)" stroke-width="3" stroke-linecap="round">
-    ${[0,45,90,135,180,225,270,315].map(i=>{let s=i*Math.PI/180;return $`<line
-        x1=${r+Math.cos(s)*(e+4)} y1=${t+Math.sin(s)*(e+4)}
-        x2=${r+Math.cos(s)*(e+9)} y2=${t+Math.sin(s)*(e+9)} />`})}
+    ${[0, 45, 90, 135, 180, 225, 270, 315].map((a3) => {
+  const rad = a3 * Math.PI / 180;
+  return w`<line
+        x1=${cx + Math.cos(rad) * (r4 + 4)} y1=${cy + Math.sin(rad) * (r4 + 4)}
+        x2=${cx + Math.cos(rad) * (r4 + 9)} y2=${cy + Math.sin(rad) * (r4 + 9)} />`;
+})}
   </g>
-  <circle cx=${r} cy=${t} r=${e} fill="var(--sun)" />`,Tt=$`
+  <circle cx=${cx} cy=${cy} r=${r4} fill="var(--sun)" />`;
+var rainLines = w`
   <g stroke="var(--rain)" stroke-width="3" stroke-linecap="round">
     <line x1="24" y1="42" x2="20" y2="48" />
     <line x1="34" y1="42" x2="30" y2="48" />
     <line x1="44" y1="42" x2="40" y2="48" />
-  </g>`,Mt=$`
+  </g>`;
+var snowDots = w`
   <g fill="var(--rain)">
     <circle cx="24" cy="45" r="2.5" />
     <circle cx="34" cy="46" r="2.5" />
     <circle cx="44" cy="45" r="2.5" />
-  </g>`,Yt={sunny:()=>Ht(32,24,13),"clear-night":()=>$`<path
-      d="M44 24a16 16 0 1 1-16-16 13 13 0 0 0 16 16z" fill="var(--ink)" />`,partlycloudy:()=>$`${Ht(22,16,9)}${b()}`,cloudy:()=>b(),fog:()=>$`
-    ${b("var(--ink)")}
+  </g>`;
+var ICONS = {
+  sunny: () => sun(32, 24, 13),
+  "clear-night": () => w`<path
+      d="M44 24a16 16 0 1 1-16-16 13 13 0 0 0 16 16z" fill="var(--ink)" />`,
+  partlycloudy: () => w`${sun(22, 16, 9)}${cloud()}`,
+  cloudy: () => cloud(),
+  fog: () => w`
+    ${cloud("var(--ink)")}
     <g stroke="var(--paper)" stroke-width="2.5">
       <line x1="26" y1="30" x2="48" y2="30" /><line x1="26" y1="36" x2="48" y2="36" />
-    </g>`,rainy:()=>$`${b()}${Tt}`,pouring:()=>$`${b()}${Tt}`,snowy:()=>$`${b()}${Mt}`,"snowy-rainy":()=>$`${b()}${Mt}`,lightning:()=>$`${b()}<path d="M34 40l-8 0 6-10-2 0 4-8 8 0-6 9 4 0z" fill="var(--sun)" />`,"lightning-rainy":()=>$`${b()}<path d="M34 40l-8 0 6-10-2 0 4-8 8 0-6 9 4 0z" fill="var(--sun)" />`,windy:()=>$`
+    </g>`,
+  rainy: () => w`${cloud()}${rainLines}`,
+  pouring: () => w`${cloud()}${rainLines}`,
+  snowy: () => w`${cloud()}${snowDots}`,
+  "snowy-rainy": () => w`${cloud()}${snowDots}`,
+  lightning: () => w`${cloud()}<path d="M34 40l-8 0 6-10-2 0 4-8 8 0-6 9 4 0z" fill="var(--sun)" />`,
+  "lightning-rainy": () => w`${cloud()}<path d="M34 40l-8 0 6-10-2 0 4-8 8 0-6 9 4 0z" fill="var(--sun)" />`,
+  windy: () => w`
     <g stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round">
       <path d="M10 20h30a6 6 0 1 0-6-6" /><path d="M10 30h40a6 6 0 1 1-6 6" />
-    </g>`};function ht(r){return(Yt[r]??b)()}var Zt=r=>new Date(r).toLocaleDateString("en-GB",{weekday:"short"}),Qt=r=>r.replace(/-/g," ").replace(/^\w/,t=>t.toUpperCase()),L=class extends _{constructor(){super(...arguments);this._config={};this._forecast=[];this._loaded=!1}setConfig(e){if(!e?.entity)throw new Error("eink-weather-card: 'entity' is required");this._config={days:4,...e}}getCardSize(){return 4}willUpdate(e){e.has("hass")&&this.hass&&!this._loaded&&(this._loaded=!0,this._loadForecast())}async _loadForecast(){let e=this._config.entity;try{let s=(await this.hass.callApi("POST","services/weather/get_forecasts?return_response=true",{entity_id:e,type:"daily"}))?.service_response?.[e]?.forecast??[];this._forecast=s.map(n=>({date:n.datetime,condition:n.condition,tempHigh:n.temperature,tempLow:n.templow,precipitation:n.precipitation,precipProbability:n.precipitation_probability}))}catch{}}render(){let e=this.hass?.states[this._config.entity];if(!e)return f`<div class="card empty">No weather (${this._config.entity})</div>`;let i=this._forecast.slice(0,this._config.days),s=i.map(l=>l.tempLow),n=i.map(l=>l.tempHigh),o=Math.min(...s,e.attributes.temperature??1/0),c=Math.max(...n,e.attributes.temperature??-1/0),a=Math.max(1,c-o),h=l=>(l-o)/a*100;return f`
+    </g>`
+};
+function weatherIcon(condition) {
+  return (ICONS[condition] ?? cloud)();
+}
+
+// src/cards/weather-card.ts
+var weekday2 = (iso) => new Date(iso).toLocaleDateString("en-GB", { weekday: "short" });
+var humanize = (condition) => condition.replace(/-/g, " ").replace(/^\w/, (c4) => c4.toUpperCase());
+var EinkWeatherCard = class extends i4 {
+  constructor() {
+    super(...arguments);
+    this._config = {};
+    this._forecast = [];
+    this._loaded = false;
+  }
+  setConfig(config) {
+    if (!config?.entity) throw new Error("eink-weather-card: 'entity' is required");
+    this._config = { days: 4, ...config };
+  }
+  getCardSize() {
+    return 4;
+  }
+  willUpdate(changed) {
+    if (changed.has("hass") && this.hass && !this._loaded) {
+      this._loaded = true;
+      void this._loadForecast();
+    }
+  }
+  async _loadForecast() {
+    const entity = this._config.entity;
+    try {
+      const resp = await this.hass.callApi(
+        "POST",
+        "services/weather/get_forecasts?return_response=true",
+        { entity_id: entity, type: "daily" }
+      );
+      const raw = resp?.service_response?.[entity]?.forecast ?? [];
+      this._forecast = raw.map((f3) => ({
+        date: f3.datetime,
+        condition: f3.condition,
+        tempHigh: f3.temperature,
+        tempLow: f3.templow,
+        precipitation: f3.precipitation,
+        precipProbability: f3.precipitation_probability
+      }));
+    } catch {
+    }
+  }
+  render() {
+    const ent = this.hass?.states[this._config.entity];
+    if (!ent) return b2`<div class="card empty">No weather (${this._config.entity})</div>`;
+    const days = this._forecast.slice(0, this._config.days);
+    const lows = days.map((d3) => d3.tempLow);
+    const highs = days.map((d3) => d3.tempHigh);
+    const lo = Math.min(...lows, ent.attributes["temperature"] ?? Infinity);
+    const hi = Math.max(...highs, ent.attributes["temperature"] ?? -Infinity);
+    const span = Math.max(1, hi - lo);
+    const frac = (t3) => (t3 - lo) / span * 100;
+    return b2`
       <div class="card">
         <div class="current">
           <div class="icon-lg">
-            <svg viewBox="0 0 64 48">${ht(e.state)}</svg>
+            <svg viewBox="0 0 64 48">${weatherIcon(ent.state)}</svg>
           </div>
           <div class="cur-text">
-            <div class="cond">${Qt(e.state)}</div>
-            <div class="temp">${Math.round(e.attributes.temperature)}°</div>
+            <div class="cond">${humanize(ent.state)}</div>
+            <div class="temp">${Math.round(ent.attributes["temperature"])}°</div>
           </div>
         </div>
         <div class="forecast">
-          ${i.map(l=>f`
+          ${days.map(
+      (d3) => b2`
               <div class="row">
-                <span class="dow">${Zt(l.date)}</span>
-                <svg class="icon-sm" viewBox="0 0 64 48">${ht(l.condition)}</svg>
-                <span class="lo">${Math.round(l.tempLow)}°</span>
+                <span class="dow">${weekday2(d3.date)}</span>
+                <svg class="icon-sm" viewBox="0 0 64 48">${weatherIcon(d3.condition)}</svg>
+                <span class="lo">${Math.round(d3.tempLow)}°</span>
                 <span class="bar">
                   <span
                     class="fill"
-                    style="left:${h(l.tempLow)}%;right:${100-h(l.tempHigh)}%"
+                    style="left:${frac(d3.tempLow)}%;right:${100 - frac(d3.tempHigh)}%"
                   ></span>
                 </span>
-                <span class="hi">${Math.round(l.tempHigh)}°</span>
+                <span class="hi">${Math.round(d3.tempHigh)}°</span>
               </div>
-            `)}
+            `
+    )}
         </div>
       </div>
-    `}};L.properties={hass:{attribute:!1},_config:{state:!0},_forecast:{state:!0}},L.styles=w`
+    `;
+  }
+};
+EinkWeatherCard.properties = {
+  hass: { attribute: false },
+  _config: { state: true },
+  _forecast: { state: true }
+};
+EinkWeatherCard.styles = i`
     :host {
-      --ink: ${u(y.black)};
-      --paper: ${u(y.white)};
-      --sun: ${u(y.yellow)};
-      --rain: ${u(y.blue)};
+      --ink: ${r(INK.black)};
+      --paper: ${r(INK.white)};
+      --sun: ${r(INK.yellow)};
+      --rain: ${r(INK.blue)};
       --track: #c8c8c8;
       display: block;
     }
@@ -326,37 +1098,119 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
       background: var(--ink);
       border-radius: 5px;
     }
-  `;x({type:"eink-weather-card",name:"E-ink Weather Card",description:"Current conditions + daily forecast with temperature range bars, for the e-ink panel."});var pt=r=>{let t=new Date(r);return t.setHours(0,0,0,0),t},te=r=>new Date(r).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}),U=class extends _{constructor(){super(...arguments);this._config={};this._events=[];this._loaded=!1}setConfig(e){this._config={title:"Calendar",days:3,entities:[],...e}}getCardSize(){return 6}sources(){return(this._config.entities??[]).map(e=>typeof e=="string"?{entity:e}:e)}willUpdate(e){e.has("hass")&&this.hass&&!this._loaded&&(this._loaded=!0,this._loadEvents())}async _loadEvents(){let e=pt(new Date),i=new Date(e.getTime()+(this._config.days??3)*864e5),s=`start=${encodeURIComponent(e.toISOString())}&end=${encodeURIComponent(i.toISOString())}`;try{let n=await Promise.all(this.sources().map(async o=>(await this.hass.callApi("GET",`calendars/${o.entity}?${s}`)??[]).map(a=>({start:a.start?.dateTime??a.start?.date,end:a.end?.dateTime??a.end?.date,title:a.summary??"(busy)",location:a.location,allDay:!!a.start?.date,color:o.color??"var(--ink)"}))));this._events=n.flat().sort((o,c)=>o.start.localeCompare(c.start))}catch{}}render(){let e=this._config.days??3,i=pt(new Date);return f`
+  `;
+registerCard({
+  type: "eink-weather-card",
+  name: "E-ink Weather Card",
+  description: "Current conditions + daily forecast with temperature range bars, for the e-ink panel."
+});
+
+// src/cards/calendar-card.ts
+var startOfDay = (d3) => {
+  const x2 = new Date(d3);
+  x2.setHours(0, 0, 0, 0);
+  return x2;
+};
+var fmtTime = (iso) => new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+var EinkCalendarCard = class extends i4 {
+  constructor() {
+    super(...arguments);
+    this._config = {};
+    this._events = [];
+    this._loaded = false;
+  }
+  setConfig(config) {
+    this._config = { title: "Calendar", days: 3, entities: [], ...config };
+  }
+  getCardSize() {
+    return 6;
+  }
+  sources() {
+    return (this._config.entities ?? []).map(
+      (e4) => typeof e4 === "string" ? { entity: e4 } : e4
+    );
+  }
+  willUpdate(changed) {
+    if (changed.has("hass") && this.hass && !this._loaded) {
+      this._loaded = true;
+      void this._loadEvents();
+    }
+  }
+  async _loadEvents() {
+    const start = startOfDay(/* @__PURE__ */ new Date());
+    const end = new Date(start.getTime() + (this._config.days ?? 3) * 864e5);
+    const qs = `start=${encodeURIComponent(start.toISOString())}&end=${encodeURIComponent(end.toISOString())}`;
+    try {
+      const lists = await Promise.all(
+        this.sources().map(async (src) => {
+          const raw = await this.hass.callApi("GET", `calendars/${src.entity}?${qs}`) ?? [];
+          return raw.map((e4) => ({
+            start: e4.start?.dateTime ?? e4.start?.date,
+            end: e4.end?.dateTime ?? e4.end?.date,
+            title: e4.summary ?? "(busy)",
+            location: e4.location,
+            allDay: Boolean(e4.start?.date),
+            color: src.color ?? "var(--ink)"
+          }));
+        })
+      );
+      this._events = lists.flat().sort((a3, b3) => a3.start.localeCompare(b3.start));
+    } catch {
+    }
+  }
+  render() {
+    const days = this._config.days ?? 3;
+    const today = startOfDay(/* @__PURE__ */ new Date());
+    return b2`
       <div class="card">
         <div class="title">${this._config.title}</div>
         <div class="days">
-          ${Array.from({length:e},(s,n)=>{let o=new Date(i.getTime()+n*864e5),c=this._events.filter(a=>pt(new Date(a.start)).getTime()===o.getTime());return this.renderDay(o,c)})}
+          ${Array.from({ length: days }, (_2, i5) => {
+      const day = new Date(today.getTime() + i5 * 864e5);
+      const dayEvents = this._events.filter(
+        (e4) => startOfDay(new Date(e4.start)).getTime() === day.getTime()
+      );
+      return this.renderDay(day, dayEvents);
+    })}
         </div>
       </div>
-    `}renderDay(e,i){return f`
+    `;
+  }
+  renderDay(day, events) {
+    return b2`
       <div class="day">
         <div class="date">
-          <span class="dow">${e.toLocaleDateString("en-GB",{weekday:"short"})}</span>
-          <span class="num">${e.getDate()}</span>
-          <span class="mon">${e.toLocaleDateString("en-GB",{month:"short"})}</span>
+          <span class="dow">${day.toLocaleDateString("en-GB", { weekday: "short" })}</span>
+          <span class="num">${day.getDate()}</span>
+          <span class="mon">${day.toLocaleDateString("en-GB", { month: "short" })}</span>
         </div>
         <div class="events">
-          ${i.length===0?f`<div class="event empty"><span class="txt muted">No events</span></div>`:i.map(s=>f`
+          ${events.length === 0 ? b2`<div class="event empty"><span class="txt muted">No events</span></div>` : events.map(
+      (e4) => b2`
                   <div class="event">
-                    <span class="rail" style="background:${s.color}"></span>
+                    <span class="rail" style="background:${e4.color}"></span>
                     <span class="txt">
-                      <span class="etitle">${s.title}</span>
-                      ${s.allDay?p:f`<span class="etime">${te(s.start)}</span>`}
-                      ${s.location?f`<span class="eloc">${s.location}</span>`:p}
+                      <span class="etitle">${e4.title}</span>
+                      ${e4.allDay ? A : b2`<span class="etime">${fmtTime(e4.start)}</span>`}
+                      ${e4.location ? b2`<span class="eloc">${e4.location}</span>` : A}
                     </span>
                   </div>
-                `)}
+                `
+    )}
         </div>
       </div>
-    `}};U.properties={hass:{attribute:!1},_config:{state:!0},_events:{state:!0}},U.styles=w`
+    `;
+  }
+};
+EinkCalendarCard.properties = {
+  hass: { attribute: false },
+  _config: { state: true },
+  _events: { state: true }
+};
+EinkCalendarCard.styles = i`
     :host {
-      --ink: ${u(y.black)};
-      --paper: ${u(y.white)};
+      --ink: ${r(INK.black)};
+      --paper: ${r(INK.white)};
       display: block;
     }
     .card {
@@ -448,19 +1302,59 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
       font-size: 16px;
       font-style: italic;
     }
-  `;x({type:"eink-calendar-card",name:"E-ink Calendar Card",description:"Day-grouped calendar agenda with colour-coded events, for the e-ink panel."});var O=class extends _{constructor(){super(...arguments);this._config={}}setConfig(e){this._config={items:[],...e}}getCardSize(){return 1}value(e){let i=this.hass?.states[e.entity];if(!i||i.state==="unavailable"||i.state==="unknown")return{value:"\u2014",unit:""};let s=Number(i.state);return{value:Number.isFinite(s)?s.toFixed(e.decimals??0):i.state,unit:i.attributes.unit_of_measurement??""}}render(){let e=this._config.items??[];return f`
+  `;
+registerCard({
+  type: "eink-calendar-card",
+  name: "E-ink Calendar Card",
+  description: "Day-grouped calendar agenda with colour-coded events, for the e-ink panel."
+});
+
+// src/cards/conditions-card.ts
+var EinkConditionsCard = class extends i4 {
+  constructor() {
+    super(...arguments);
+    this._config = {};
+  }
+  setConfig(config) {
+    this._config = { items: [], ...config };
+  }
+  getCardSize() {
+    return 1;
+  }
+  value(item) {
+    const ent = this.hass?.states[item.entity];
+    if (!ent || ent.state === "unavailable" || ent.state === "unknown") {
+      return { value: "\u2014", unit: "" };
+    }
+    const num = Number(ent.state);
+    const value = Number.isFinite(num) ? num.toFixed(item.decimals ?? 0) : ent.state;
+    return { value, unit: ent.attributes["unit_of_measurement"] ?? "" };
+  }
+  render() {
+    const items = this._config.items ?? [];
+    return b2`
       <div class="card">
-        ${e.map(i=>{let{value:s,unit:n}=this.value(i);return f`
+        ${items.map((item) => {
+      const { value, unit } = this.value(item);
+      return b2`
             <div class="tile">
-              <div class="val">${s}<span class="unit">${n}</span></div>
-              <div class="lbl">${i.label}</div>
+              <div class="val">${value}<span class="unit">${unit}</span></div>
+              <div class="lbl">${item.label}</div>
             </div>
-          `})}
+          `;
+    })}
       </div>
-    `}};O.properties={hass:{attribute:!1},_config:{state:!0}},O.styles=w`
+    `;
+  }
+};
+EinkConditionsCard.properties = {
+  hass: { attribute: false },
+  _config: { state: true }
+};
+EinkConditionsCard.styles = i`
     :host {
-      --ink: ${u(y.black)};
-      --paper: ${u(y.white)};
+      --ink: ${r(INK.black)};
+      --paper: ${r(INK.white)};
       display: block;
     }
     .card {
@@ -493,7 +1387,73 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
       letter-spacing: 0.06em;
       margin-top: 3px;
     }
-  `;x({type:"eink-conditions-card",name:"E-ink Conditions Card",description:"Compact strip of sensor tiles (temperature, CO\u2082, \u2026) for the e-ink panel."});var z=class extends _{constructor(){super(...arguments);this._config={};this._children=[];this._buildToken=0}setConfig(e){this._config=e??{}}getCardSize(){return 10}updated(e){e.has("_config")?(this._buildToken+=1,this._build(this._buildToken)):e.has("hass")&&this._forwardHass()}async _build(e){let i=[{slot:"weather",cfg:this._config.weather,defaultType:"custom:eink-weather-card"},{slot:"price",cfg:this._config.price,defaultType:"custom:eink-price-card"},{slot:"calendar",cfg:this._config.calendar,defaultType:"custom:eink-calendar-card"}];this._config.conditions&&i.splice(1,0,{slot:"conditions",cfg:this._config.conditions,defaultType:"custom:eink-conditions-card"});let s=window.loadCardHelpers?await window.loadCardHelpers():null;if(e===this._buildToken){this._children=[];for(let{slot:n,cfg:o,defaultType:c}of i){let a=this.renderRoot.querySelector(`.${n}`);if(!a)continue;let h={type:c,...o??{}},l=s?s.createCardElement(h):this._fallbackCard(h);a.replaceChildren(l),this._children.push(l)}this._forwardHass()}}_fallbackCard(e){let i=document.createElement(String(e.type).replace(/^custom:/,""));return i.setConfig?.(e),i}_forwardHass(){if(this.hass)for(let e of this._children)e.hass=this.hass}render(){return f`
+  `;
+registerCard({
+  type: "eink-conditions-card",
+  name: "E-ink Conditions Card",
+  description: "Compact strip of sensor tiles (temperature, CO\u2082, \u2026) for the e-ink panel."
+});
+
+// src/cards/panel-card.ts
+var EinkPanelCard = class extends i4 {
+  constructor() {
+    super(...arguments);
+    this._config = {};
+    this._children = [];
+    this._buildToken = 0;
+  }
+  setConfig(config) {
+    this._config = config ?? {};
+  }
+  getCardSize() {
+    return 10;
+  }
+  updated(changed) {
+    if (changed.has("_config")) {
+      this._buildToken += 1;
+      void this._build(this._buildToken);
+    } else if (changed.has("hass")) {
+      this._forwardHass();
+    }
+  }
+  async _build(token) {
+    const specs = [
+      { slot: "weather", cfg: this._config.weather, defaultType: "custom:eink-weather-card" },
+      { slot: "price", cfg: this._config.price, defaultType: "custom:eink-price-card" },
+      { slot: "calendar", cfg: this._config.calendar, defaultType: "custom:eink-calendar-card" }
+    ];
+    if (this._config.conditions) {
+      specs.splice(1, 0, {
+        slot: "conditions",
+        cfg: this._config.conditions,
+        defaultType: "custom:eink-conditions-card"
+      });
+    }
+    const helpers = window.loadCardHelpers ? await window.loadCardHelpers() : null;
+    if (token !== this._buildToken) return;
+    this._children = [];
+    for (const { slot, cfg, defaultType } of specs) {
+      const host = this.renderRoot.querySelector(`.${slot}`);
+      if (!host) continue;
+      const config = { type: defaultType, ...cfg ?? {} };
+      const el = helpers ? helpers.createCardElement(config) : this._fallbackCard(config);
+      host.replaceChildren(el);
+      this._children.push(el);
+    }
+    this._forwardHass();
+  }
+  /** Used only if loadCardHelpers is unavailable (it always is in HA). */
+  _fallbackCard(config) {
+    const el = document.createElement(String(config.type).replace(/^custom:/, ""));
+    el.setConfig?.(config);
+    return el;
+  }
+  _forwardHass() {
+    if (!this.hass) return;
+    for (const child of this._children) child.hass = this.hass;
+  }
+  render() {
+    return b2`
       <div class="panel">
         <div class="top">
           <div class="left">
@@ -506,10 +1466,17 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
         </div>
         <div class="slot price"></div>
       </div>
-    `}};z.properties={hass:{attribute:!1},_config:{state:!0}},z.styles=w`
+    `;
+  }
+};
+EinkPanelCard.properties = {
+  hass: { attribute: false },
+  _config: { state: true }
+};
+EinkPanelCard.styles = i`
     :host {
-      --ink: ${u(y.black)};
-      --paper: ${u(y.white)};
+      --ink: ${r(INK.black)};
+      --paper: ${r(INK.white)};
       /* Force a light theme so embedded HA-themed cards (e.g. clock-weather-card)
          render on white regardless of the frontend theme Puppet screenshots. */
       --ha-card-background: #ffffff;
@@ -546,7 +1513,6 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
       flex: 1 1 auto;
       min-width: 0;
       min-height: 0;
-      border-left: 2px solid var(--ink);
       overflow: hidden;
     }
     /* Weather may be a tall card (clock-weather-card); let it shrink/clip rather
@@ -562,7 +1528,6 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
     /* Price chart spans the full width along the bottom. */
     .price {
       flex: 0 0 auto;
-      border-top: 2px solid var(--ink);
     }
     .slot {
       min-width: 0;
@@ -570,7 +1535,27 @@ var X=globalThis,J=X.ShadowRoot&&(X.ShadyCSS===void 0||X.ShadyCSS.nativeShadow)&
     .slot.conditions:empty {
       display: none;
     }
-    .slot.conditions:not(:empty) {
-      border-top: 2px solid var(--ink);
-    }
-  `;x({type:"eink-panel-card",name:"E-ink Panel",description:"Composes the weather, price and calendar cards into the 800\xD7480 e-ink layout."});var ee=[["eink-price-card",R],["eink-weather-card",L],["eink-calendar-card",U],["eink-conditions-card",O],["eink-panel-card",z]];for(let[r,t]of ee)customElements.get(r)||customElements.define(r,t);console.info("%c eink-dashboard-cards %c 0.1.0 ","background:#0000ff;color:#fff;font-weight:700","background:#008000;color:#fff");
+  `;
+registerCard({
+  type: "eink-panel-card",
+  name: "E-ink Panel",
+  description: "Composes the weather, price and calendar cards into the 800\xD7480 e-ink layout."
+});
+
+// src/index.ts
+var CARDS = [
+  ["eink-price-card", EinkPriceCard],
+  ["eink-weather-card", EinkWeatherCard],
+  ["eink-calendar-card", EinkCalendarCard],
+  ["eink-conditions-card", EinkConditionsCard],
+  ["eink-panel-card", EinkPanelCard]
+];
+for (const [tag, ctor] of CARDS) {
+  if (!customElements.get(tag)) customElements.define(tag, ctor);
+}
+console.info(
+  "%c eink-dashboard-cards %c 0.1.0 ",
+  "background:#0000ff;color:#fff;font-weight:700",
+  "background:#008000;color:#fff"
+);
+//# sourceMappingURL=eink-dashboard-cards.js.map

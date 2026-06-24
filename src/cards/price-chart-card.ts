@@ -187,8 +187,10 @@ export class EinkPriceCard extends LitElement {
           </div>
           <div class="axis">
             ${xticks.map(
-              ({ i, p }) =>
-                html`<span class="${p.hour === 0 ? "day" : ""}" style="left:${pct(i)}%"
+              ({ i, p }, idx) =>
+                html`<span
+                  class="${p.hour === 0 ? "day" : ""} ${idx === 0 ? "edge-left" : ""}"
+                  style="left:${pct(i)}%"
                   >${p.hour === 0 ? weekday(p.date) : String(p.hour).padStart(2, "0")}</span
                 >`,
             )}
@@ -344,6 +346,10 @@ export class EinkPriceCard extends LitElement {
     .axis span.day {
       font-weight: 800;
       text-transform: uppercase;
+    }
+    /* Keep the first label from running off the left edge. */
+    .axis span.edge-left {
+      transform: translateX(0);
     }
   `;
 }

@@ -161,7 +161,6 @@ export class EinkPanelCard extends LitElement {
       flex: 1 1 auto;
       min-width: 0;
       min-height: 0;
-      border-left: 2px solid var(--ink);
       overflow: hidden;
     }
     /* Weather may be a tall card (clock-weather-card); let it shrink/clip rather
@@ -177,16 +176,12 @@ export class EinkPanelCard extends LitElement {
     /* Price chart spans the full width along the bottom. */
     .price {
       flex: 0 0 auto;
-      border-top: 2px solid var(--ink);
     }
     .slot {
       min-width: 0;
     }
     .slot.conditions:empty {
       display: none;
-    }
-    .slot.conditions:not(:empty) {
-      border-top: 2px solid var(--ink);
     }
   `;
 }

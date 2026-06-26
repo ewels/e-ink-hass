@@ -7,6 +7,10 @@ node_modules/
 !.env.example
 dev/hass-snapshot.json
 
+# Local-only machine notes (live HA access details) — never commit
+CLAUDE.local.md
+.claude/ha-access.md
+
 # dist/ is committed on purpose — HACS serves the built bundle from it.
 # ...but not dev sourcemaps (only produced by `npm run dev`).
 dist/*.map

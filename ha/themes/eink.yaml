@@ -1,0 +1,64 @@
+# Lovelace theme for the e-ink panel: a flat, pure-white surface with black text.
+#
+# Reproduces the CSS variable overrides the old `eink-panel-card` forced on its
+# host, so the native-stack dashboard screenshots identically — white paper,
+# black ink, no card shadows or borders, regardless of the frontend's
+# light/dark theme.
+#
+# Install:
+#   1. Copy this file to your HA config under `themes/` (i.e. config/themes/eink.yaml).
+#   2. Ensure configuration.yaml loads the themes dir:
+#        frontend:
+#          themes: !include_dir_merge_named themes
+#   3. Developer Tools -> YAML -> Reload Themes (or restart HA).
+#
+# The E-ink dashboard's views already reference `theme: eink`, so it applies
+# automatically once loaded. (Per-view theme overrides whatever the Puppet
+# user's default theme is.)
+
+eink:
+  # --- Backgrounds: everything white ---
+  lovelace-background: "#ffffff"
+  primary-background-color: "#ffffff"
+  secondary-background-color: "#ffffff"
+  card-background-color: "#ffffff"
+  ha-card-background: "#ffffff"
+  app-header-background-color: "#ffffff"
+
+  # --- Flat, borderless cards for a clean screenshot ---
+  ha-card-box-shadow: none
+  ha-card-border-width: "0px"
+  ha-card-border-radius: "0px"
+
+  # --- Black ink so text reads on white whatever the base theme ---
+  primary-text-color: "#000000"
+  secondary-text-color: "#000000"
+  text-primary-color: "#000000"
+  divider-color: "#000000"
+
+  # --- Browser preview at the real device size (needs card-mod installed) ---
+  # In a browser wider than the panel, pin the panel view to the device's
+  # 800x480 at the top-left, white with a border, on a grey surround — so the
+  # preview matches the e-ink screen instead of stretching. Uses min-height (not
+  # a fixed height + overflow:hidden) so that in edit mode the footer bar — a
+  # child of hui-panel-view — flows BELOW the box instead of being clipped or
+  # overlapped. Guarded by a min-width media query so the Puppet add-on's exact
+  # 800-wide screenshot (what the device actually shows) is unaffected.
+  card-mod-theme: eink
+  card-mod-view: |
+    @media (min-width: 801px) {
+      #view {
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        background: #888 !important;
+      }
+      hui-panel-view {
+        display: block !important;
+        width: 800px !important;
+        min-height: 480px !important;
+        flex: 0 0 auto !important;
+        background: #ffffff !important;
+        box-shadow: 0 0 0 1px #000 !important;
+      }
+    }

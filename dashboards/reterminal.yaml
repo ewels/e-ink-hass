@@ -1,90 +1,141 @@
-# Lovelace view for the reTerminal E1002 e-ink panel.
+# Snapshot of the live Home Assistant "E-ink" dashboard (url_path: e-ink).
 #
-# Use a DEDICATED dashboard in PANEL mode so the single eink-panel-card fills the
-# 800x480 viewport that the Puppet add-on screenshots. To install:
-#   Settings → Dashboards → Add dashboard → (open it) → ⋮ → Edit dashboard →
-#   ⋮ → Raw configuration editor → paste this file's contents.
+# Source-of-truth backup of the dashboard, which otherwise lives only in HA's
+# .storage (that has rolled back on an unclean reboot before). To restore: open
+# the E-ink dashboard -> ⋮ -> Edit dashboard -> ⋮ -> Raw configuration editor ->
+# replace everything with this file's contents.
 #
-# Then point Puppet at this dashboard's URL (e.g. /eink/home) at 800x480, and set
-# that screenshot URL as `image_url` in device/reterminal-e1002.yaml.
+# Contains real entity IDs (calendars, waste sensors, greenely price) and
+# card-mod styling. Requires the HACS cards clock-weather-card, calendar-card-pro
+# and card-mod, plus the bundled eink-dashboard-cards (eink-price-card). The
+# views use theme: eink (see ha/themes/eink.yaml).
 #
-# The entity IDs below are examples — map them to your own Home Assistant
-# entities. In particular `calendar.personal` / `calendar.family` are
-# placeholders for your calendar entities.
+# Generated from the live dashboard via the HA WebSocket API. Last synced:
+# 2026-06-27. To refresh, re-run scratchpad/snapshot-dashboard.mjs.
 
 title: E-ink
 views:
   - title: Panel
-    path: home
-    panel: true # single card fills the viewport
+    path: panel
+    panel: true
+    type: panel
+    theme: eink
+    icon: mdi:tablet-dashboard
+    show_icon_and_title: true
     cards:
-      - type: custom:eink-panel-card
-        # Weather: community clock-weather-card (install via HACS), styled to the
-        # monochrome e-ink look with card-mod (also a HACS dependency) — line
-        # icons recoloured to black, white range-bar tracks with grey fill, both
-        # bordered. This mirrors the cromelex reference setup.
-        weather:
-          type: custom:clock-weather-card
-          entity: weather.forecast_home
-          sun_entity: sun.sun
-          forecast_rows: 4
-          hide_clock: true # show condition + temperature, not a clock
-          hide_date: true
-          weather_icon_type: line
-          animated_icon: false
-          card_mod:
-            style: |
-              ha-card {
-                font-weight: 700;
-                padding: 0px !important;
-              }
-              forecast-temperature-bar-range {
-                background: #808080 !important; /* flat grey -> clean B/W halftone */
-                border: 1px solid black;
-                box-sizing: border-box;
-              }
-              forecast-temperature-bar-background {
-                opacity: 1 !important;
-                background: white !important;
-                border: 1px solid black !important;
-                border-radius: 15px !important;
-                box-sizing: border-box !important;
-              }
-              forecast-icon {
-                border-radius: 15px !important;
-                filter: grayscale(1) brightness(0.4);
-                width: 40px;
-                height: 40px;
-              }
-              clock-weather-card-today-left {
-                filter: grayscale(1) brightness(0);
-                max-height: 50px;
-                transform: scale(2.8) translate(0px, 9px);
-              }
-        price:
-          entity: sensor.greenely_prices
-          title: Electricity
-          low_threshold: 50 # öre/kWh — green below
-          high_threshold: 200 # öre/kWh — red above
-          cheapest_window: 8 # quarter-hours (= 2h); 0 to hide
-        # Calendar: community calendar-card-pro (install via HACS).
-        calendar:
-          type: custom:calendar-card-pro
-          days_to_show: 3
-          time_24h: true
-          show_location: true
-          entities:
-            - entity: calendar.family
-              color: "#0000ff" # blue
-            - entity: calendar.personal
-              color: "#008000" # green
-            # `blocklist` is a regex on the event *title*. Use it to drop events
-            # by name. NOTE: to hide Focus time / Out of office (incl. custom-named
-            # focus blocks) or events you haven't accepted, prefer the optional
-            # ha/google_rsvp_filter/ component — it filters by Google event type +
-            # RSVP, which a title regex can't do reliably.
-            - entity: calendar.work
-              color: "#000000" # black
-              # blocklist: "standup|lunch"   # example: hide by title
-            - entity: calendar.holidays_in_sweden
-              color: "#ff0000" # red
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: custom:clock-weather-card
+                    entity: weather.forecast_home
+                    sun_entity: sun.sun
+                    forecast_rows: 4
+                    hide_clock: true
+                    hide_date: true
+                    weather_icon_type: line
+                    animated_icon: false
+                    card_mod:
+                      style: |-
+                        ha-card{font-weight:700;padding:0px !important;}
+                        forecast-temperature-bar-range{background:#808080 !important;border:1px solid black;box-sizing:border-box;}
+                        forecast-temperature-bar-background{opacity:1 !important;background:white !important;border:1px solid black !important;border-radius:15px !important;box-sizing:border-box !important;}
+                        forecast-icon{border-radius:15px !important;filter:grayscale(1) brightness(0.4);width:40px;height:40px;}
+                        clock-weather-card-today-left{filter:grayscale(1) brightness(0);max-height:50px;transform:scale(2.8) translate(0px,9px);}
+              - type: horizontal-stack
+                cards:
+                  - type: tile
+                    entity: sensor.waste_collection_schedule_matavfall
+                    name: Matavfall
+                    icon: mdi:food-apple-outline
+                    vertical: true
+                    state_content: state
+                    card_mod:
+                      style:
+                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; }'
+                        ha-tile-info $: '.primary { font-size: 20px !important; font-weight: 400 !important; } .secondary { font-size: 20px !important; }'
+                        .: 'ha-tile-icon { --tile-color: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ffff00{% else %}#808080{% endif %}; } ha-card { box-shadow: none; border: 0; background: none; }'
+                  - type: tile
+                    entity: sensor.waste_collection_schedule_papper_och_plast
+                    name: Papper & plast
+                    icon: mdi:recycle
+                    vertical: true
+                    state_content: state
+                    card_mod:
+                      style:
+                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; }'
+                        ha-tile-info $: '.primary { font-size: 20px !important; font-weight: 400 !important; } .secondary { font-size: 20px !important; }'
+                        .: 'ha-tile-icon { --tile-color: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ffff00{% else %}#808080{% endif %}; } ha-card { box-shadow: none; border: 0; background: none; }'
+          - type: custom:eink-price-card
+            entity: sensor.greenely_prices
+            title: Electricity
+            low_threshold: 50
+            high_threshold: 200
+            cheapest_window: 12
+  - title: Panel - calendar
+    path: panel-calendar
+    panel: true
+    type: panel
+    theme: eink
+    icon: mdi:tablet-dashboard
+    show_icon_and_title: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: custom:clock-weather-card
+                    entity: weather.forecast_home
+                    sun_entity: sun.sun
+                    forecast_rows: 4
+                    hide_clock: true
+                    hide_date: true
+                    weather_icon_type: line
+                    animated_icon: false
+                    card_mod:
+                      style: |-
+                        ha-card{font-weight:700;padding:0px !important;}
+                        forecast-temperature-bar-range{background:#808080 !important;border:1px solid black;box-sizing:border-box;}
+                        forecast-temperature-bar-background{opacity:1 !important;background:white !important;border:1px solid black !important;border-radius:15px !important;box-sizing:border-box !important;}
+                        forecast-icon{border-radius:15px !important;filter:grayscale(1) brightness(0.4);width:40px;height:40px;}
+                        clock-weather-card-today-left{filter:grayscale(1) brightness(0);max-height:50px;transform:scale(2.8) translate(0px,9px);}
+              - type: custom:calendar-card-pro
+                days_to_show: 3
+                time_24h: true
+                show_location: true
+                entities:
+                  - entity: calendar.freyaewels_gmail_com
+                    color: '#a032a8'
+                  - entity: calendar.ewelsphil_gmail_com
+                    color: '#00ff00'
+                  - entity: calendar.phil_ewels_seqera_io
+                    color: '#0000ff'
+          - type: custom:eink-price-card
+            entity: sensor.greenely_prices
+            title: Electricity
+            low_threshold: 50
+            high_threshold: 200
+            cheapest_window: 12
+  - type: panel
+    path: photo
+    title: Photo
+    theme: eink
+    icon: mdi:panorama-variant-outline
+    show_icon_and_title: true
+    cards:
+      - type: picture
+        image:
+          media_content_id: media-source://image_upload/21421b58b92c459fe3d748eb4f7dc1b1
+          media_content_type: image/jpeg
+          metadata:
+            title: IMG_8646.JPG
+            thumbnail: /api/image/serve/21421b58b92c459fe3d748eb4f7dc1b1/256x256
+            media_class: image
+            navigateIds:
+              - {}
+              - media_content_type: app
+                media_content_id: media-source://image_upload

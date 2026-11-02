@@ -2,7 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import type { PropertyValues } from "lit";
 import type { HomeAssistant, WeatherDay } from "../shared/hass.js";
 import { registerCard } from "../shared/hass.js";
-import { INK } from "../shared/palette.js";
+import { INK, LEVEL_INK } from "../shared/palette.js";
 import { weatherIcon } from "../shared/weather-icons.js";
 
 interface WeatherCardConfig {
@@ -121,7 +121,7 @@ export class EinkWeatherCard extends LitElement {
     :host {
       --ink: ${unsafeCSS(INK.black)};
       --paper: ${unsafeCSS(INK.white)};
-      --sun: ${unsafeCSS(INK.yellow)};
+      --sun: ${unsafeCSS(LEVEL_INK.mid)};
       --rain: ${unsafeCSS(INK.blue)};
       --track: #c8c8c8;
       display: block;
@@ -139,6 +139,7 @@ export class EinkWeatherCard extends LitElement {
     .current {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 12px;
       margin-bottom: 12px;
     }
@@ -146,10 +147,6 @@ export class EinkWeatherCard extends LitElement {
       width: 96px;
       height: 72px;
       display: block;
-    }
-    .cur-text {
-      margin-left: auto;
-      text-align: right;
     }
     .cond {
       font-size: 16px;

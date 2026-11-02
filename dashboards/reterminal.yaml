@@ -6,12 +6,12 @@
 # replace everything with this file's contents.
 #
 # Contains real entity IDs (calendars, waste sensors, greenely price) and
-# card-mod styling. Requires the HACS cards clock-weather-card, calendar-card-pro
-# and card-mod, plus the bundled eink-dashboard-cards (eink-price-card). The
+# card-mod styling. Requires the HACS cards calendar-card-pro and card-mod, plus
+# the bundled eink-dashboard-cards (eink-weather-card, eink-price-card). The
 # views use theme: eink (see ha/themes/eink.yaml).
 #
 # Generated from the live dashboard via the HA WebSocket API. Last synced:
-# 2026-06-27. To refresh, re-run scratchpad/snapshot-dashboard.mjs.
+# 2026-11-02. To refresh, re-run scratchpad/snapshot-dashboard.mjs.
 
 title: E-ink
 views:
@@ -24,27 +24,31 @@ views:
     show_icon_and_title: true
     cards:
       - type: vertical-stack
+        card_mod:
+          style: '#root { height: 100%; } #root > hui-card:last-child { margin-top: auto; }'
         cards:
+          - type: markdown
+            # ponytail: linear 3.3-4.2 V -> 0-100 %; Li-ion isn't linear, swap for a lookup if readings mislead.
+            content: >-
+              {% set p = ((states('sensor.reterminal_e_ink_reterminal_battery_voltage')|float(0) - 3.3) / 0.9 * 100)|round|int %}
+              {% set p = [0, [p, 100]|min]|max %}
+              <ha-icon icon="mdi:battery{{ '-outline' if p < 5 else '' if p > 95 else '-' ~ ((p / 10)|round|int * 10) }}"></ha-icon> {{ p }}%
+            card_mod:
+              style: |-
+                ha-card { position: absolute; top: 0; right: 0; z-index: 1; width: auto; height: auto; background: none; border: 0; box-shadow: none; font-size: 20px; font-weight: 700; color: {{ '#ff0000' if ((states('sensor.reterminal_e_ink_reterminal_battery_voltage')|float(0) - 3.3) / 0.9) < 0.2 else '#000000' }}; }
+                ha-markdown { padding: 4px 8px !important; }
           - type: horizontal-stack
+            card_mod:
+              style: '#root { justify-content: flex-start; gap: 24px; } #root > hui-card > * { flex: 0 0 auto !important; }'
             cards:
               - type: vertical-stack
                 cards:
-                  - type: custom:clock-weather-card
+                  - type: custom:eink-weather-card
                     entity: weather.forecast_home
-                    sun_entity: sun.sun
-                    forecast_rows: 4
-                    hide_clock: true
-                    hide_date: true
-                    weather_icon_type: line
-                    animated_icon: false
-                    card_mod:
-                      style: |-
-                        ha-card{font-weight:700;padding:0px !important;}
-                        forecast-temperature-bar-range{background:#808080 !important;border:1px solid black;box-sizing:border-box;}
-                        forecast-temperature-bar-background{opacity:1 !important;background:white !important;border:1px solid black !important;border-radius:15px !important;box-sizing:border-box !important;}
-                        forecast-icon{border-radius:15px !important;filter:grayscale(1) brightness(0.4);width:40px;height:40px;}
-                        clock-weather-card-today-left{filter:grayscale(1) brightness(0);max-height:50px;transform:scale(2.8) translate(0px,9px);}
+                    days: 0
               - type: horizontal-stack
+                card_mod:
+                  style: '#root > hui-card > * { flex: 0 0 170px !important; }'
                 cards:
                   - type: tile
                     entity: sensor.waste_collection_schedule_matavfall
@@ -54,9 +58,9 @@ views:
                     state_content: state
                     card_mod:
                       style:
-                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; }'
+                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; background: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ff8000{% else %}transparent{% endif %} !important; } .container::before { display: none !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; color: #000000 !important; }'
                         ha-tile-info $: '.primary { font-size: 20px !important; font-weight: 400 !important; } .secondary { font-size: 20px !important; }'
-                        .: 'ha-tile-icon { --tile-color: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ffff00{% else %}#808080{% endif %}; } ha-card { box-shadow: none; border: 0; background: none; }'
+                        .: 'ha-card { box-shadow: none; border: 0; background: none; }'
                   - type: tile
                     entity: sensor.waste_collection_schedule_papper_och_plast
                     name: Papper & plast
@@ -65,9 +69,9 @@ views:
                     state_content: state
                     card_mod:
                       style:
-                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; }'
+                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; background: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ff8000{% else %}transparent{% endif %} !important; } .container::before { display: none !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; color: #000000 !important; }'
                         ha-tile-info $: '.primary { font-size: 20px !important; font-weight: 400 !important; } .secondary { font-size: 20px !important; }'
-                        .: 'ha-tile-icon { --tile-color: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ffff00{% else %}#808080{% endif %}; } ha-card { box-shadow: none; border: 0; background: none; }'
+                        .: 'ha-card { box-shadow: none; border: 0; background: none; }'
           - type: custom:eink-price-card
             entity: sensor.greenely_prices
             title: Electricity
@@ -83,26 +87,26 @@ views:
     show_icon_and_title: true
     cards:
       - type: vertical-stack
+        card_mod:
+          style: '#root { height: 100%; } #root > hui-card:last-child { margin-top: auto; }'
         cards:
+          - type: markdown
+            # ponytail: linear 3.3-4.2 V -> 0-100 %; Li-ion isn't linear, swap for a lookup if readings mislead.
+            content: >-
+              {% set p = ((states('sensor.reterminal_e_ink_reterminal_battery_voltage')|float(0) - 3.3) / 0.9 * 100)|round|int %}
+              {% set p = [0, [p, 100]|min]|max %}
+              <ha-icon icon="mdi:battery{{ '-outline' if p < 5 else '' if p > 95 else '-' ~ ((p / 10)|round|int * 10) }}"></ha-icon> {{ p }}%
+            card_mod:
+              style: |-
+                ha-card { position: absolute; top: 0; right: 0; z-index: 1; width: auto; height: auto; background: none; border: 0; box-shadow: none; font-size: 20px; font-weight: 700; color: {{ '#ff0000' if ((states('sensor.reterminal_e_ink_reterminal_battery_voltage')|float(0) - 3.3) / 0.9) < 0.2 else '#000000' }}; }
+                ha-markdown { padding: 4px 8px !important; }
           - type: horizontal-stack
             cards:
               - type: vertical-stack
                 cards:
-                  - type: custom:clock-weather-card
+                  - type: custom:eink-weather-card
                     entity: weather.forecast_home
-                    sun_entity: sun.sun
-                    forecast_rows: 4
-                    hide_clock: true
-                    hide_date: true
-                    weather_icon_type: line
-                    animated_icon: false
-                    card_mod:
-                      style: |-
-                        ha-card{font-weight:700;padding:0px !important;}
-                        forecast-temperature-bar-range{background:#808080 !important;border:1px solid black;box-sizing:border-box;}
-                        forecast-temperature-bar-background{opacity:1 !important;background:white !important;border:1px solid black !important;border-radius:15px !important;box-sizing:border-box !important;}
-                        forecast-icon{border-radius:15px !important;filter:grayscale(1) brightness(0.4);width:40px;height:40px;}
-                        clock-weather-card-today-left{filter:grayscale(1) brightness(0);max-height:50px;transform:scale(2.8) translate(0px,9px);}
+                    days: 0
               - type: custom:calendar-card-pro
                 days_to_show: 3
                 time_24h: true

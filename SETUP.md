@@ -25,8 +25,7 @@ Then **download** it, and also install these community cards (HACS â†’ search â†
 
 | Card | Why |
 |------|-----|
-| `clock-weather-card` | weather block |
-| `card-mod` | restyles the weather to the monochrome e-ink look |
+| `card-mod` | restyles the bin tiles and positions the battery badge |
 | `calendar-card-pro` | calendar |
 
 **Reload your browser** (Cmd/Ctrl-Shift-R) so the new Lovelace resources load.

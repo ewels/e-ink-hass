@@ -42,9 +42,8 @@ This repo provides three things:
 The `panel` card composes its slots via Home Assistant's card helpers, so you can
 freely mix bundled custom cards with community ones. The shipped dashboard uses:
 
-- **weather** — [`clock-weather-card`](https://github.com/pkissling/clock-weather-card)
-  styled to the monochrome e-ink look with [`card-mod`](https://github.com/thomasloven/lovelace-card-mod)
-  (line icons recoloured black, white range-bar tracks with solid grey fill, both bordered)
+- **weather** — the bundled `eink-weather-card` with `days: 0` (current icon +
+  temperature only)
 - **price** — the bundled `eink-price-card` (no community equivalent does the öre
   thresholds + 15-min bars)
 - **calendar** — [`calendar-card-pro`](https://github.com/alexpfau/calendar-card-pro)
@@ -122,8 +121,8 @@ ever loading it into Home Assistant.
 **→ Follow the full step-by-step guide in [SETUP.md](SETUP.md).** It covers the
 whole path with the gotchas baked in. In short:
 
-1. **Cards (HACS):** add this repo (category Dashboard) + `clock-weather-card`,
-   `card-mod`, `calendar-card-pro`.
+1. **Cards (HACS):** add this repo (category Dashboard) + `card-mod`,
+   `calendar-card-pro`.
 2. **Dashboard:** create an `E-ink` dashboard and paste `dashboards/reterminal.yaml`.
 3. **Wake-time sensor:** add `ha/seconds-until-wake.yaml` to your config; restart.
 4. **Puppet add-on:** install `balloob/home-assistant-addons` → Puppet; give it a
@@ -138,8 +137,7 @@ Cards built and previewable in the dev harness against real HA data:
 - `eink-price-card` — electricity price bars (öre, today + tomorrow)
 - `eink-calendar-card` — day-grouped agenda, colour-coded by calendar
 - `eink-conditions-card` — compact sensor strip (indoor/outdoor temp, CO₂)
-- `eink-weather-card` — current conditions + forecast range bars (alternative to
-  clock-weather-card)
+- `eink-weather-card` — current conditions + optional forecast range bars (`days`)
 - `eink-panel-card` — composes the slots into the fixed 800×480 layout (the
   single card the Lovelace view uses)
 

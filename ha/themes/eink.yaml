@@ -46,6 +46,9 @@ eink:
   # 800-wide screenshot (what the device actually shows) is unaffected.
   card-mod-theme: eink
   card-mod-view: |
+    hui-panel-view {
+      position: relative !important; /* anchor for the dashboard's battery badge */
+    }
     @media (min-width: 801px) {
       #view {
         display: flex !important;

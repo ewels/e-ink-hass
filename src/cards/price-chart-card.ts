@@ -44,7 +44,7 @@ const weekday = (date: string): string =>
  * split by a divider; tomorrow's half is shaded until Nordpool publishes it
  * (~13:00). Bars are coloured by fixed öre/kWh thresholds and greyed out once
  * past, the current interval is marked with a line above it, and the cheapest
- * contiguous window is underlined. Reads Greenely's 15-minute `*_quarterly`
+ * contiguous window from now on is underlined. Reads Greenely's 15-minute `*_quarterly`
  * attributes when present, else the hourly ones.
  */
 export class EinkPriceCard extends LitElement {
@@ -154,7 +154,8 @@ export class EinkPriceCard extends LitElement {
     });
 
     const w = this._config.cheapest_window ?? (quarter ? 8 : 2);
-    const cheapAt = this.cheapestWindow(points.slice(0, realCount), w);
+    const fromNow = this.cheapestWindow(points.slice(nowIdx, realCount), w);
+    const cheapAt = fromNow < 0 ? -1 : nowIdx + fromNow;
 
     const xticks = points
       .map((p, i) => ({ i, p }))

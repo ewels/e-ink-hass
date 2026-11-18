@@ -35,7 +35,7 @@ views:
               <ha-icon icon="mdi:battery{{ '-outline' if p < 5 else '' if p > 95 else '-' ~ ((p / 10)|round|int * 10) }}"></ha-icon> {{ p }}%
             card_mod:
               style: |-
-                ha-card { position: absolute; top: 0; right: 0; z-index: 1; width: auto; height: auto; background: none; border: 0; box-shadow: none; font-size: 20px; font-weight: 700; color: {{ '#ff0000' if ((states('sensor.reterminal_e_ink_reterminal_battery_voltage')|float(0) - 3.3) / 0.9) < 0.2 else '#000000' }}; }
+                ha-card { position: absolute; top: 0; right: 0; z-index: 1; width: auto; height: auto; background: none; border: 0; box-shadow: none; font-size: 20px; font-weight: 700; color: {{ '#ff0000' if ((states('sensor.reterminal_e_ink_reterminal_battery_voltage')|float(0) - 3.3) / 0.9 * 100)|round|int <= 15 else '#000000' }}; }
                 ha-markdown { padding: 4px 8px !important; }
           - type: horizontal-stack
             card_mod:
@@ -58,9 +58,9 @@ views:
                     state_content: state
                     card_mod:
                       style:
-                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; background: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ff8000{% else %}transparent{% endif %} !important; } .container::before { display: none !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; color: #000000 !important; }'
+                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; background: none !important; } .container::before { display: none !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; color: #000000 !important; }'
                         ha-tile-info $: '.primary { font-size: 20px !important; font-weight: 400 !important; } .secondary { font-size: 20px !important; }'
-                        .: 'ha-card { box-shadow: none; border: 0; background: none; }'
+                        .: 'ha-card { box-shadow: none; border: 0; background: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ff8000{% else %}transparent{% endif %} !important; }'
                   - type: tile
                     entity: sensor.waste_collection_schedule_papper_och_plast
                     name: Papper & plast
@@ -69,9 +69,9 @@ views:
                     state_content: state
                     card_mod:
                       style:
-                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; background: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ff8000{% else %}transparent{% endif %} !important; } .container::before { display: none !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; color: #000000 !important; }'
+                        ha-tile-icon $: '.container { width: 92px !important; height: 92px !important; background: none !important; } .container::before { display: none !important; } ::slotted([slot="icon"]) { --mdc-icon-size: 62px !important; color: #000000 !important; }'
                         ha-tile-info $: '.primary { font-size: 20px !important; font-weight: 400 !important; } .secondary { font-size: 20px !important; }'
-                        .: 'ha-card { box-shadow: none; border: 0; background: none; }'
+                        .: 'ha-card { box-shadow: none; border: 0; background: {% set s = states(config.entity)|lower %}{% set t = s.split(" ")[0] %}{% if "today" in s or "tomorrow" in s or t=="0" or t=="1" %}#ff0000{% elif t=="2" %}#ff8000{% else %}transparent{% endif %} !important; }'
           - type: custom:eink-price-card
             entity: sensor.greenely_prices
             title: Electricity
@@ -98,7 +98,7 @@ views:
               <ha-icon icon="mdi:battery{{ '-outline' if p < 5 else '' if p > 95 else '-' ~ ((p / 10)|round|int * 10) }}"></ha-icon> {{ p }}%
             card_mod:
               style: |-
-                ha-card { position: absolute; top: 0; right: 0; z-index: 1; width: auto; height: auto; background: none; border: 0; box-shadow: none; font-size: 20px; font-weight: 700; color: {{ '#ff0000' if ((states('sensor.reterminal_e_ink_reterminal_battery_voltage')|float(0) - 3.3) / 0.9) < 0.2 else '#000000' }}; }
+                ha-card { position: absolute; top: 0; right: 0; z-index: 1; width: auto; height: auto; background: none; border: 0; box-shadow: none; font-size: 20px; font-weight: 700; color: {{ '#ff0000' if ((states('sensor.reterminal_e_ink_reterminal_battery_voltage')|float(0) - 3.3) / 0.9 * 100)|round|int <= 15 else '#000000' }}; }
                 ha-markdown { padding: 4px 8px !important; }
           - type: horizontal-stack
             cards:

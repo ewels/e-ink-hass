@@ -1,8 +1,8 @@
 import { svg, type SVGTemplateResult } from "lit";
 
 /**
- * Minimal weather icons for the e-ink panel — solid shapes in the panel inks
- * (black cloud/moon, yellow sun, blue rain/snow) so they survive dithering.
+ * Minimal weather icons for the e-ink panel, in greyscale only: black
+ * cloud/moon/rain/snow, grey sun (dithers to a black/white halftone).
  * Drawn in a 64×48 viewBox; size is set by the host via width/height.
  */
 

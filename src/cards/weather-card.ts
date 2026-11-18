@@ -2,7 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import type { PropertyValues } from "lit";
 import type { HomeAssistant, WeatherDay } from "../shared/hass.js";
 import { registerCard } from "../shared/hass.js";
-import { INK, LEVEL_INK } from "../shared/palette.js";
+import { INK } from "../shared/palette.js";
 import { weatherIcon } from "../shared/weather-icons.js";
 
 interface WeatherCardConfig {
@@ -14,8 +14,14 @@ interface WeatherCardConfig {
 const weekday = (iso: string): string =>
   new Date(iso).toLocaleDateString("en-GB", { weekday: "short" });
 
+// HA's condition slugs aren't all hyphenated words.
+const LABELS: Record<string, string> = {
+  partlycloudy: "Partly cloudy",
+  "windy-variant": "Windy, cloudy",
+};
+
 const humanize = (condition: string): string =>
-  condition.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase());
+  LABELS[condition] ?? condition.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase());
 
 /**
  * Current conditions + daily forecast for the e-ink panel. Big icon and
@@ -121,8 +127,8 @@ export class EinkWeatherCard extends LitElement {
     :host {
       --ink: ${unsafeCSS(INK.black)};
       --paper: ${unsafeCSS(INK.white)};
-      --sun: ${unsafeCSS(LEVEL_INK.mid)};
-      --rain: ${unsafeCSS(INK.blue)};
+      --sun: #808080;
+      --rain: ${unsafeCSS(INK.black)};
       --track: #c8c8c8;
       display: block;
     }

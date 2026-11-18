@@ -18,6 +18,7 @@ interface Point {
   ore: number; // price in öre/kWh
   day: 0 | 1; // 0 = today, 1 = tomorrow
   level: "low" | "mid" | "high";
+  empty?: boolean; // placeholder slot for tomorrow before its prices are published
 }
 
 interface PriceCardConfig {
@@ -39,11 +40,12 @@ const weekday = (date: string): string =>
   new Date(date).toLocaleDateString("en-GB", { weekday: "short" });
 
 /**
- * Electricity price chart for the e-ink panel. Shows today and — once Nordpool
- * publishes it (~13:00) — tomorrow, as one continuous chart split by a divider.
- * Bars are coloured by fixed öre/kWh thresholds, the current interval is marked
- * with a line above it, and the cheapest contiguous window is underlined. Reads
- * Greenely's 15-minute `*_quarterly` attributes when present, else the hourly ones.
+ * Electricity price chart for the e-ink panel. Always spans today and tomorrow,
+ * split by a divider; tomorrow's half is shaded until Nordpool publishes it
+ * (~13:00). Bars are coloured by fixed öre/kWh thresholds and greyed out once
+ * past, the current interval is marked with a line above it, and the cheapest
+ * contiguous window is underlined. Reads Greenely's 15-minute `*_quarterly`
+ * attributes when present, else the hourly ones.
  */
 export class EinkPriceCard extends LitElement {
   static properties = {
@@ -63,7 +65,12 @@ export class EinkPriceCard extends LitElement {
     return 3;
   }
 
-  private series(): { points: Point[]; todayCount: number; max: number } | null {
+  private series(): {
+    points: Point[];
+    realCount: number;
+    todayCount: number;
+    max: number;
+  } | null {
     const ent = this.hass?.states[this._config.entity!];
     if (!ent) return null;
 
@@ -92,11 +99,20 @@ export class EinkPriceCard extends LitElement {
       };
     };
 
-    const points = [
-      ...today.map((p) => toPoint(p, 0)),
-      ...tomorrow.map((p) => toPoint(p, 1)),
-    ];
-    return { points, todayCount: today.length, max: Math.max(...points.map((p) => p.ore)) };
+    const real = [...today.map((p) => toPoint(p, 0)), ...tomorrow.map((p) => toPoint(p, 1))];
+    // ponytail: placeholders mirror today's slots, so a DST-change tomorrow is off by an hour until published.
+    const placeholders: Point[] = tomorrow.length
+      ? []
+      : real.map((p) => {
+          const d = new Date(p.ms + 864e5);
+          return { ...p, ms: d.getTime(), date: d.toISOString(), day: 1, empty: true };
+        });
+    return {
+      points: [...real, ...placeholders],
+      realCount: real.length,
+      todayCount: today.length,
+      max: Math.max(...real.map((p) => p.ore)),
+    };
   }
 
   /** Start index of the cheapest contiguous window of length w (or -1). */
@@ -120,7 +136,7 @@ export class EinkPriceCard extends LitElement {
     if (!data) {
       return html`<div class="card empty">No price data (${this._config.entity})</div>`;
     }
-    const { points, todayCount, max } = data;
+    const { points, realCount, todayCount, max } = data;
     const n = points.length;
     const quarter = todayCount >= 96;
     const pct = (i: number) => (i / (n - 1)) * 100;
@@ -138,7 +154,7 @@ export class EinkPriceCard extends LitElement {
     });
 
     const w = this._config.cheapest_window ?? (quarter ? 8 : 2);
-    const cheapAt = this.cheapestWindow(points, w);
+    const cheapAt = this.cheapestWindow(points.slice(0, realCount), w);
 
     const xticks = points
       .map((p, i) => ({ i, p }))
@@ -153,7 +169,8 @@ export class EinkPriceCard extends LitElement {
         <div class="head">
           <span class="title">${this._config.title}</span>
           <span class="now">
-            <span class="now-label">Now</span>${points[nowIdx]!.ore}
+            <span class="now-label">Max</span>${max}
+            <span class="now-label gap">Now</span>${points[nowIdx]!.ore}
             <small>öre/kWh</small>
           </span>
         </div>
@@ -161,11 +178,18 @@ export class EinkPriceCard extends LitElement {
           <div class="row">
             <div class="plot">
               <div class="bars">
-                ${points.map(
-                  (p) =>
-                    html`<div class="bar ${p.level}" style="height:${Math.max(2, (p.ore / max) * 100)}%"></div>`,
+                ${points.map((p, i) =>
+                  p.empty
+                    ? html`<div class="bar"></div>`
+                    : html`<div
+                        class="bar ${i < nowIdx ? "past" : p.level}"
+                        style="height:${Math.max(2, (p.ore / max) * 100)}%"
+                      ></div>`,
                 )}
               </div>
+              ${realCount < n
+                ? html`<div class="nodata" style="left:${pct(todayCount - 0.5)}%"></div>`
+                : nothing}
               <div class="now-line" style="left:${pct(nowIdx)}%;height:${nowLineH}px"></div>
               ${todayCount < n
                 ? html`<div class="divider" style="left:${pct(todayCount - 0.5)}%"></div>`
@@ -241,6 +265,9 @@ export class EinkPriceCard extends LitElement {
     .now-label {
       margin-right: 8px;
     }
+    .now-label.gap {
+      margin-left: 28px;
+    }
     .now small {
       font-size: 12px;
       font-weight: 700;
@@ -277,6 +304,17 @@ export class EinkPriceCard extends LitElement {
     }
     .bar.high {
       background: var(--high);
+    }
+    .bar.past {
+      background: #c0c0c0;
+    }
+    /* Tomorrow's half before its prices are published. */
+    .nodata {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: #ececec;
     }
     /* "Now" marker: a downward arrow above the current bar. */
     .now-line {
